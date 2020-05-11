@@ -1,0 +1,74 @@
+package com.colony;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+public class RoadBlock extends Draggable {
+	ShapeRenderer shapeRenderer;
+	private static final float SIZE = 20;
+	private static final double COS = Math.cos(Math.PI / 6);
+	private static final double SIN = Math.sin(Math.PI / 6);
+	private static final float DELTAX = (float) (SIZE * COS);
+	private static final float DELTAY = (float) (SIZE * SIN);public void loadAnim() {}
+
+	public RoadBlock(float x, float y, Stage s) {
+		super(x, y, s);
+		shapeRenderer = new ShapeRenderer();
+
+	}
+	public RoadBlock(float x, float y) {
+		super(x, y);
+		shapeRenderer = new ShapeRenderer();
+
+	}
+
+	public RoadBlock(Vector2 pos, Stage s) {
+		super(pos.x, pos.y, s);
+		shapeRenderer = new ShapeRenderer();
+	}
+
+
+	public void render(ShapeRenderer shapeRenderer) {
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.setColor(255, 255, 255, 1);
+		float x = getX();
+		float y = getY();
+
+		shapeRenderer.rectLine(x, y, x + DELTAX, y + DELTAY, 4);
+		shapeRenderer.rectLine(x, y, x + DELTAX, y - DELTAY, 4);
+		shapeRenderer.rectLine(x + DELTAX, y + DELTAY, x + 2 * DELTAX, y, 4);
+		shapeRenderer.rectLine(x + DELTAX, y - DELTAY, x + 2 * SIZE, y, 4);
+		shapeRenderer.end();
+	}
+
+	public List<RoadBlock> getStreet(float x, float y) {
+		List<RoadBlock> out = new ArrayList<RoadBlock>();
+		int deltax = 1;
+		int deltay = 1;
+		if (x > getX())
+			deltax = 1;
+		if (x < getX())
+			deltax = -1;
+		if (y > getY())
+			deltay = 1;
+		if (y < getY())
+			deltay = -1;
+		int num = (int) (Math.abs(x - getX()) / DELTAX);
+		for (int i = 0; i < num; i++) {
+			RoadBlock r = new RoadBlock(x+deltax*DELTAX, y+deltay*DELTAY);
+			out.add(r);
+		}
+		return out;
+	}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);
+		render(shapeRenderer);
+	}
+}

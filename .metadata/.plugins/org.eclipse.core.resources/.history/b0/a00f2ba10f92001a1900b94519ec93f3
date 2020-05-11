@@ -1,0 +1,88 @@
+package com.colony.buildings;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.Carrier;
+import com.colony.buildings.actors.Agent;
+import com.colony.buildings.actors.Mission;
+import com.colony.commons.Anagrafica;
+import com.colony.commons.NotifyFromAgent;
+import com.colony.commons.OrdersHub;
+import com.colony.commons.Ordine;
+import com.colony.enums.Materiale;
+import com.colony.enums.TipoElemento;
+
+public class Castello extends EdificioFabbrica implements NotifyFromAgent{
+//	public static Castello CASTELLO;
+
+	public Castello(float x, float y, Stage s, BaseActor act) {
+		super(x, y, s, act);
+	//	CASTELLO = this;
+
+		tipoElemento = TipoElemento.CASTELLO;
+
+		materiPrimeInGiacenza.addMateriale(Materiale.TRONCO, 50);
+		materiPrimeInGiacenza.addMateriale(Materiale.ASSE_LEGNO, 50);
+		materiPrimeInGiacenza.addMateriale(Materiale.ACQUA, 50);
+
+	}
+
+	@Override
+	public void work() {
+		processOrders();
+	}
+
+	@Override
+	protected void processOrders() {
+
+		process(Materiale.TRONCO);
+		process(Materiale.ASSE_LEGNO);
+		process(Materiale.ACQUA);
+
+	}
+
+	private void process(Materiale m) {
+		if (materiPrimeInGiacenza.getGiacenzaMateriale(m) > 0) {
+			Ordine o = OrdersHub.getOrdine(m);
+			if (o != null) {
+				System.out.println("invio");
+				inviaProdotto(o);
+				materiPrimeInGiacenza.removeMateriale(m);
+			}
+		}
+	}
+	protected void inviaProdotto(Ordine o) {
+		materiPrimeInGiacenza.removeMateriale(o.getMateriale());
+		Edificio target = Anagrafica.getEdificioById(o.getIdEdificio());
+		
+		Agent agent = new Agent(getX(), getY(), mainStage, this);
+		
+		agent.goMission(target.getX(), target.getY(), new Mission() {
+
+			@Override
+			public void exec() {
+				target.handleDelivery(o);
+				
+
+			}
+		});
+		
+		
+		Carrier r = new Carrier(x, y, mainStage);
+		
+		
+		r.setTarget(target);
+
+		float deltax = target.getX() - x;
+		float deltay = target.getY() - y;
+
+		r.setVelocityVec(deltax, deltay);
+	}
+
+	@Override
+	public void notifyMissionComplete() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

@@ -1,0 +1,21 @@
+package com.colony.fixed;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.enums.TipoElemento;
+
+public class Grano extends CosaCheCresce {
+	private static String animations[] = { //
+			"grano/grano_0.png", //
+			"grano/grano_1.png", //
+			"grano/grano_2.png", //
+			"grano/grano_3.png", //
+			"grano/grano_4.png"  };
+	
+	public Grano(float x, float y, Stage s) {
+		super(x, y, s, TipoElemento.GRANO, animations);
+		
+	}
+
+	
+
+}

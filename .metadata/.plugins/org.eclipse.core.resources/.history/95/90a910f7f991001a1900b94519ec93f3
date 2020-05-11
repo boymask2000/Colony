@@ -1,0 +1,5 @@
+package com.colony.enums;
+
+public enum TipoEdificio {
+POZZO, CASTELLO, BOSCAIOLO
+}

@@ -1,0 +1,13 @@
+package com.colony.commons;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Mercato {
+	private static List<Ordine> ordini = new ArrayList<>();
+
+	public static void addOrder(Ordine o) {
+		ordini.add(o);
+	}
+
+}

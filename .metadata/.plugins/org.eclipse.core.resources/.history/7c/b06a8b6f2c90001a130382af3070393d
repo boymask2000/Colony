@@ -1,0 +1,33 @@
+package com.colony.buildings;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.enums.TipoEdificio;
+
+public class BuildingsHub {
+	private static List<Edificio> edifici = new ArrayList<>();
+
+	public static Pozzo createPozzo(float x, float y, Stage stage) {
+		Pozzo p = new Pozzo(x, y, stage);
+		edifici.add(p);
+		return p;
+
+	}
+
+	public static Edificio createCastello(float x, float y, Stage s) {
+		Castello p = new Castello(x, y, s);
+		edifici.add(p);
+		return p;
+
+	}
+
+	public static List<Edificio> getEdificiType(TipoEdificio t) {
+		List<Edificio> out = new ArrayList<>();
+		for (Edificio ed : edifici)
+			if (ed.getTipoEdificio() == t)
+				out.add(ed);
+		return out;
+	}
+}

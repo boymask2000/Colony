@@ -1,0 +1,32 @@
+package com.colony.buildings.drag;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.buildings.actors.TaglialegnaActor;
+import com.colony.enums.TipoElemento;
+
+public class TaglialegnaDrag extends com.colony.buildings.drag.Draggable {
+ 
+
+	public TaglialegnaDrag(float x, float y, Stage s) {
+		super(x, y, s, TipoElemento.TAGLIALEGNA);
+	
+	
+	}
+	public void loadAnim() {
+		String animations[] ={ "boscaiolo.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+		
+	}
+	
+	@Override
+	protected void setFinalEdificio() {
+		new TaglialegnaActor(getX(), getY(), mainStage);
+		
+	}
+	
+	@Override
+	public void refreshEdificio() {
+		// TODO Auto-generated method stub
+		
+	}
+}

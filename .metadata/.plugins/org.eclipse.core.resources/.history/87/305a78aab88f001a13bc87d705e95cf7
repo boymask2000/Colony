@@ -1,0 +1,150 @@
+package com.colony;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.colony.utils.AnimationSet;
+
+public class Draggable extends BaseActor implements InputProcessor {
+	private boolean moving;
+	private InputProcessor prev;
+	private String animationFiles[] = { "b2.png" };
+	private AnimationSet animationSet = new AnimationSet(animationFiles);
+	private Stage mainStage;
+
+	public Draggable(float x, float y, Stage s) {
+		super(x, y, s);
+		mainStage=s;
+
+		init();
+
+		loadAnim();
+	}
+
+	public void loadAnim() {
+		loadAnimationFromFiles(animationSet.getAnimationFiles(), 0.1f, true);
+
+	}
+
+	public Draggable(float x, float y) {
+		super(x, y);
+
+		init();
+		loadAnim();
+
+	}
+
+	public void init() {
+
+		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
+		moving = true;
+//		prev = Gdx.input.getInputProcessor();
+//		System.out.println("save " + prev);
+		im.addProcessor(this);
+	}
+
+	public void init0() {
+
+		moving = true;
+		prev = Gdx.input.getInputProcessor();
+		System.out.println("save " + prev);
+		Gdx.input.setInputProcessor(this);
+	}
+
+	public String[] getAnimationFiles() {
+		return animationFiles;
+	}
+
+	public void setAnimationFiles(String[] animationFiles) {
+		// loadAnimationFromFiles(animationFiles, 0.1f, true);
+		this.animationFiles = animationFiles;
+
+	}
+
+	@Override
+	public void act(float dt) {
+		if (!moving)
+			return;
+		super.act(dt);
+		float x = Gdx.input.getX();
+		float y = Gdx.input.getY();
+		
+		Viewport v = mainStage.getViewport(); 
+		Vector2 mousePos = v.unproject(new Vector2(x, y));
+		setPosition(mousePos.x, mousePos.y);
+		
+		
+	}
+
+	@Override
+	public boolean touchDown(int x, int y, int pointer, int button) {
+		if (button == Input.Buttons.LEFT) {
+			System.out.println("f");
+			moving = false;
+			InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
+
+			im.removeProcessor(this);
+		
+			return true;
+		}
+		return false;
+	}
+
+	public boolean touchDown0(int x, int y, int pointer, int button) {
+		if (button == Input.Buttons.LEFT) {
+			System.out.println("f");
+			moving = false;
+			Gdx.input.setInputProcessor(prev);
+			System.out.println("restore " + prev);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}

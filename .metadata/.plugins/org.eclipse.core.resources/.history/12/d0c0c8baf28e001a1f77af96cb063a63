@@ -1,0 +1,110 @@
+package com.colony;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.buildings.SeminaAlberi;
+
+public class Road extends Draggable {
+	private static  float SIZE = 20;
+	private static final double COS = Math.cos(Math.PI / 6);
+	private static final double SIN = Math.sin(Math.PI / 6);
+	private static  float DELTAX ;
+	private static  float DELTAY ;
+
+	private Vector2 start = null;
+	private Stage mainStage;
+
+	public Road(float x, float y) {
+		super(x, y);
+
+	}
+
+	public Road(float x, float y, Stage s) {
+		super(x, y, s);
+		this.mainStage = s;
+	}
+	@Override
+	public void loadAnim() {
+		String animations[] ={ "b.jpg" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+		SIZE=70;
+		 DELTAX = (float) (SIZE * COS);
+		 DELTAY = (float) (SIZE * SIN);
+		
+	}
+	
+
+	@Override
+	public boolean touchDown(int x, int y, int pointer, int button) {
+
+		if (super.touchDown(x, y, pointer, button)) {
+			float xx = getX();
+			float yy = getY();
+
+			if (start == null) {
+
+				// disegna(xx, yy);
+
+				start = new Vector2(xx, yy);
+
+			} else {
+				// getStreet(xx, yy, true);
+			}
+
+		}
+		return false;
+	}
+
+	@Override
+	public void act(float dt) {
+		super.act(dt);
+
+		float x = Gdx.input.getX();
+		float y = Gdx.input.getY();
+		if (start != null)
+			getStreet(start.x, start.y, false);
+		
+	
+	}
+	List<BaseActor> out = new ArrayList<BaseActor>();
+	
+	public void getStreet(float x, float y, boolean fine) {
+		for( BaseActor a:out)
+			a.remove();
+		out.clear();
+	
+		int deltax = 1;
+		int deltay = 1;
+		float xx = Gdx.input.getX();
+		float yy = Gdx.input.getY();
+		
+		if (x > xx)
+			deltax = -1;
+		if (x < xx)
+			deltax = 1;
+		if (y > yy)
+			deltay = 1;
+		if (y < yy)
+			deltay = -1;
+		
+	
+		
+		int num = 1;
+		if (start != null)
+			num = (int) (Math.abs(x - xx) / DELTAX);
+		for (int i = 0; i < num; i++) {
+			if (fine == false) {
+				RoadBlock obj = new RoadBlock(x + i * deltax * DELTAX, y + i * deltay * DELTAY, mainStage);
+				 out.add(obj);
+			}
+
+
+		}
+		
+	}
+
+}

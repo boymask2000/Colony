@@ -1,0 +1,5 @@
+package com.colony.commons;
+
+public enum Materiale {
+ACQUA, TRONCO, ASSSE_LEGNO
+}

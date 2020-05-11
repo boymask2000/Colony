@@ -1,0 +1,76 @@
+package com.colony.buildings.actors.infopanels;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.colony.buildings.Castello;
+import com.colony.buildings.Edificio;
+import com.colony.buildings.EdificioFabbrica;
+import com.colony.commons.GiacenzaEdificio;
+import com.colony.enums.Materiale;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+
+public class InfoPanelCastello extends InfoPanelScreen {
+
+	public InfoPanelCastello(Stage mainStage, Edificio edificio) {
+		super(mainStage);
+		Button casa = createButton("b2.png");
+	
+
+		uiTable.add().top();
+		uiTable.add(casa);
+
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = new BitmapFont();
+		String name=edificio.getName();
+		
+		Label nameLabel = new Label( name,labelStyle);
+		nameLabel.setColor(Color.CYAN);
+	
+		uiTable.row();
+		uiTable.add().top();
+		uiTable.add(nameLabel);
+		
+		if( edificio instanceof EdificioFabbrica) {
+			EdificioFabbrica fab = (EdificioFabbrica)edificio;
+			GiacenzaEdificio giac = fab.getMateriPrimeInGiacenza();
+			Map<Materiale, Integer> mat = giac.getAll();
+			Iterator<Entry<Materiale, Integer>> iter = mat.entrySet().iterator();
+			for( Entry<Materiale, Integer> enry: iter) {
+				
+			}
+		}
+		
+
+		Label starfishLabel = new Label("Starfish Left:", labelStyle);
+		starfishLabel.setColor(Color.CYAN);
+	//	starfishLabel.setPosition(20, 20);
+		uiTable.row();
+		uiTable.add().top();
+		uiTable.add(starfishLabel);
+
+	}
+
+	private Button createButton(String img) {
+		ButtonStyle buttonStyle = new ButtonStyle();
+		Texture buttonTex = new Texture(Gdx.files.internal(img));
+		TextureRegion buttonRegion = new TextureRegion(buttonTex);
+		buttonStyle.up = new TextureRegionDrawable(buttonRegion);
+		Button b = new Button(buttonStyle);
+		b.setColor(Color.CYAN);
+		return b;
+	}
+
+}

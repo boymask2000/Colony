@@ -1,0 +1,65 @@
+package com.colony.buildings;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.enums.Materiale;
+import com.colony.enums.TipoEdificio;
+
+public abstract class Edificio {
+
+	private static int ID = 0;
+
+	private int id;
+	protected TipoEdificio tipoEdificio;
+
+	protected Materiale prodotto;
+
+	protected float x;
+	protected float y;
+
+	protected Stage mainStage;
+
+	private BaseActor actor;
+
+	public Edificio(float x, float y, Stage s, BaseActor act) {
+		ID++;
+		id = ID;
+		this.mainStage = s;
+		this.actor = act;
+
+		this.x = x;
+		this.y = y;
+
+	}
+
+	public abstract void work();
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public TipoEdificio getTipoEdificio() {
+		return tipoEdificio;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public BaseActor getActor() {
+		return actor;
+	}
+
+}

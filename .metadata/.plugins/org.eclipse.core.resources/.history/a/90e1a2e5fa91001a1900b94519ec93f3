@@ -1,0 +1,32 @@
+package com.colony.buildings.actors;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.Draggable;
+import com.colony.buildings.Anagrafica;
+import com.colony.enums.TipoElemento;
+
+public class BoscaioloActor extends Draggable {
+ 
+
+	public BoscaioloActor(float x, float y) {
+		super(x, y);
+	
+		
+	}
+	public BoscaioloActor(float x, float y, Stage s) {
+		super(x, y, s, TipoElemento.BOSCAIOLO);
+	
+		edificio = Anagrafica.createBoscaiolo(x,y,s, this);
+	
+	}
+	public void loadAnim() {
+		String animations[] ={ "boscaiolo.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+		
+	}
+	@Override
+	protected void notifyEndDragging() {
+		// TODO Auto-generated method stub
+		
+	}
+}

@@ -1,0 +1,122 @@
+package com.colony.commons;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.buildings.Boscaiolo;
+import com.colony.buildings.Castello;
+import com.colony.buildings.Edificio;
+import com.colony.buildings.EdificioFabbrica;
+import com.colony.buildings.EdificioSuArea;
+import com.colony.buildings.Pozzo;
+import com.colony.buildings.Taglialegna;
+import com.colony.buildings.actors.TaglialegnaActor;
+import com.colony.enums.TipoElemento;
+import com.colony.fixed.Albero;
+
+public class Anagrafica {
+	private static List<Edificio> edifici = new ArrayList<>();
+	private static List<BaseActor> actors = new ArrayList<>();
+
+	public static Albero createAlbero(float x, float y, Stage stage) {
+		Albero p = new Albero(x, y, stage);
+		actors.add(p);
+		return p;
+
+	}
+
+	public static List<BaseActor> getActorsByType(TipoElemento t) {
+		List<BaseActor> out = new ArrayList<>();
+		for (BaseActor ed : actors)
+			if (ed.getTipoElemento() == t)
+				out.add(ed);
+		return out;
+	}
+
+	public static BaseActor getNearestActor(TipoElemento t, float x, float y) {
+		List<BaseActor> out = getActorsByType(t);
+		if (out.size() == 0)
+			return null;
+
+		BaseActor near = out.get(0);
+		float minDist = Utils.calcDist(x, y, near.getX(), near.getY());
+		for (BaseActor ed : out) {
+			float d = Utils.calcDist(x, y, ed.getX(), ed.getY());
+			if (d < minDist) {
+				minDist = d;
+				near = ed;
+			}
+		}
+		return near;
+
+	}
+
+	public static Pozzo createPozzo(float x, float y, Stage stage, BaseActor act) {
+		Pozzo p = new Pozzo(x, y, stage, act);
+		edifici.add(p);
+		return p;
+
+	}
+	public static Edificio createTaglialegna(float x, float y, Stage stage, BaseActor act) {
+		Taglialegna p = new Taglialegna(x, y, stage, act);
+		edifici.add(p);
+		return p;
+	}
+
+	public static EdificioSuArea createEdificioSuArea(float x, float y, Stage stage, BaseActor act) {
+		EdificioSuArea p = new EdificioSuArea(x, y, stage, act);
+		edifici.add(p);
+		return p;
+
+	}
+
+	public static EdificioFabbrica createCastello(float x, float y, Stage s, BaseActor act) {
+		Castello p = new Castello(x, y, s, act);
+		edifici.add(p);
+		return p;
+
+	}
+
+	public static EdificioFabbrica createBoscaiolo(float x, float y, Stage s, BaseActor act) {
+		Boscaiolo p = new Boscaiolo(x, y, s, act);
+		edifici.add(p);
+		return p;
+	}
+
+	public static List<Edificio> getEdificiType(TipoElemento t) {
+		List<Edificio> out = new ArrayList<>();
+		for (Edificio ed : edifici)
+			if (ed.getTipoElemento() == t)
+				out.add(ed);
+		return out;
+	}
+
+	public static Edificio getNearestEdificio(TipoElemento t, float x, float y) {
+		List<Edificio> out = getEdificiType(t);
+		if (out.size() == 0)
+			return null;
+
+		Edificio near = out.get(0);
+		float minDist = Utils.calcDist(x, y, near.getX(), near.getY());
+		for (Edificio ed : out) {
+			float d = Utils.calcDist(x, y, ed.getX(), ed.getY());
+			if (d < minDist) {
+				minDist = d;
+				near = ed;
+			}
+		}
+		return near;
+
+	}
+
+	public static Edificio getEdificioById(int id) {
+		for (Edificio ed : edifici)
+			if (ed.getId() == id)
+				return ed;
+		return null;
+	}
+
+
+}

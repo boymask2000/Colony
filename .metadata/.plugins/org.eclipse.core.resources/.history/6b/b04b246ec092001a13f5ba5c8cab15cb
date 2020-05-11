@@ -1,0 +1,40 @@
+package com.colony.buildings.actors.infopanels;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
+public class InfoPanelBoscaiolo extends InfoPanelScreen {
+
+	public InfoPanelBoscaiolo(Stage mainStage) {
+		super(mainStage);
+		Button casa = createButton("b2.png");
+
+		uiTable.add().top();
+		uiTable.add(casa);
+
+		Label starfishLabel = new Label("Starfish Left:", new LabelStyle());
+		starfishLabel.setColor(Color.CYAN);
+		starfishLabel.setPosition(20, 520);
+		uiStage.addActor(starfishLabel);
+
+	}
+
+	private Button createButton(String img) {
+		ButtonStyle buttonStyle = new ButtonStyle();
+		Texture buttonTex = new Texture(Gdx.files.internal(img));
+		TextureRegion buttonRegion = new TextureRegion(buttonTex);
+		buttonStyle.up = new TextureRegionDrawable(buttonRegion);
+		Button b = new Button(buttonStyle);
+		b.setColor(Color.CYAN);
+		return b;
+	}
+
+}

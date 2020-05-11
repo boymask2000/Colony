@@ -1,0 +1,19 @@
+package com.colony.buildings;
+
+import com.colony.commons.GiacenzaEdificio;
+
+public class QuartierGenerale extends Edificio{
+
+	public QuartierGenerale(float x, float y) {
+		super(x, y);
+		
+		materiPrimeInGiacenza.
+		
+	}
+
+	@Override
+	public void work() {
+	
+	}
+
+}

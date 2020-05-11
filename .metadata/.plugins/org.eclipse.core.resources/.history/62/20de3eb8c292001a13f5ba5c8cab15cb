@@ -1,0 +1,22 @@
+package com.colony.buildings.actors;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.buildings.Castello;
+import com.colony.enums.TipoElemento;
+
+public class CastelloActor extends BaseActor {
+
+	public CastelloActor(float x, float y, Stage s) {
+		super(x, y, s, TipoElemento.CASTELLO);
+		edificio = new Castello(x, y, s, this);
+		loadAnim();
+	}
+
+	public void loadAnim() {
+		String animations[] = { "castello.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+
+	}
+
+}

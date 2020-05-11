@@ -1,0 +1,50 @@
+package com.colony.buildings.actors;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.Draggable;
+import com.colony.buildings.BuildingsHub;
+
+public class Agent extends Draggable {
+	private boolean andata = true;
+	private float startX;
+	private float startY;
+
+	public Agent(float x, float y) {
+		super(x, y);
+
+	}
+
+	public Agent(float x, float y, Stage s) {
+		super(x, y, s);
+
+	}
+
+	public void goMission(float xx, float yy) {
+		startX = getX();
+		startY = getY();
+	}
+
+	public void act(float dt) {
+		super.act(dt);
+
+		applyPhysics(dt);
+		setAnimationPaused(!isMoving());
+		if (getSpeed() > 0)
+			setRotation(getMotionAngle());
+
+		if (andata) {
+
+		} else {
+
+		}
+
+		boundToWorld();
+
+	}
+
+	public void loadAnim() {
+		String animations[] = { "pozzo.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+
+	}
+}

@@ -1,0 +1,59 @@
+package com.colony;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.buildings.Edificio;
+import com.colony.buildings.EdificioFabbrica;
+import com.colony.commons.Ordine;
+
+public class Carrier extends BaseActor {
+
+	private BaseActor target;
+	private Edificio edificioTarget;
+	private Ordine ordine;
+
+	public Carrier(float x, float y, Stage s) {
+		super(x, y, s);
+
+	}
+
+	public void act(float dt) {
+		super.act(dt);
+
+		applyPhysics(dt);
+		setAnimationPaused(!isMoving());
+		if (getSpeed() > 0)
+			setRotation(getMotionAngle());
+
+		if (overlaps(target)) {
+			System.out.println("arrivo");
+			edificioTarget.handleDelivery(ordine);
+			remove();
+		}
+
+		boundToWorld();
+
+	}
+
+	@Override
+	public void refreshEdificio() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setTarget(Edificio target) {
+		edificioTarget = target;
+
+		this.target = target.getActor();
+
+	}
+
+	public void setOrdine(Ordine o) {
+		this.ordine = o;
+		String img = ordine.getMateriale().getImg();
+
+		String[] filenames = { img };
+		loadAnimationFromFiles(filenames, 0.1f, true);
+
+	}
+
+}

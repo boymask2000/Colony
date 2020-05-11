@@ -1,0 +1,17 @@
+package com.colony.buildings;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.enums.Materiale;
+import com.colony.enums.TipoEdificio;
+
+public class Boscaiolo extends Edificio {
+	public Boscaiolo(float x, float y, Stage s, BaseActor act) {
+		super(x, y,s, act);
+		tipoEdificio = TipoEdificio.BOSCAIOLO;
+
+		prodotto = Materiale.TRONCO;
+	}
+
+	
+}

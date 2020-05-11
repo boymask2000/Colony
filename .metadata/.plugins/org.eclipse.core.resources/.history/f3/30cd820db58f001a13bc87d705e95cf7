@@ -1,0 +1,163 @@
+package com.colony;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.colony.buildings.SeminaAlberi;
+
+public class LevelScreen extends BaseScreen {
+	private static final float DELTACAM = 10;
+	
+
+
+	private float camX = 0;
+	private float camY = 0;
+
+	public void initialize() {
+		Casa	casa = new Casa(50, 50, mainStage);
+		BaseActor.setWorldBounds(1500, 1500);
+
+		setButtons();
+
+	}
+
+	private void setButtons() {
+
+		Button	casa = createButton("b2.png");
+		Button	boscaiolo = createButton("boscaiolo.png");
+		
+		Button right = createButton("right.png");
+		Button left = createButton("left.png");
+		Button up = createButton("up.png");
+		Button down = createButton("down.png");
+		Button street = createButton("street.png");
+
+		uiTable.add().expandX().top();
+		uiTable.add(casa);
+		uiTable.add(boscaiolo);
+		
+
+		
+		uiTable.row();
+		uiTable.add().expandX().expandY().bottom();
+		uiTable.add(right);
+		uiTable.add(left);
+		uiTable.row();
+		uiTable.add().expandX().expandY().bottom();
+		
+		uiTable.add(up);
+		uiTable.add(down);
+		
+		
+		uiTable.row();uiTable.add().expandX().expandY().bottom();
+		uiTable.add(street);
+
+//		restartButton.addListener((Event e) -> {
+//			System.out.println(e);
+//			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+//				return false;
+//			ColonyGame.setActiveScreen(new LevelScreen());
+//			return false;
+//		});
+		casa.addListener((Event e) -> {
+	
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			new Draggable(10, 10, mainStage);
+			System.out.println("Draggable");
+			return false;
+		});
+		boscaiolo.addListener((Event e) -> {
+			
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			new SeminaAlberi(10, 10, mainStage);
+			System.out.println("boscaiolo");
+			return false;
+		});
+
+		street.addListener((Event e) -> {
+		
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			new Road(10, 10, mainStage);
+			System.out.println("street");
+			return false;
+		});
+
+		
+		up.addListener((Event e) -> {
+			
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			camY -= DELTACAM;
+			alignCamera();
+			System.out.println("up");
+			return false;
+		});
+		down.addListener((Event e) -> {
+			
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			camY += DELTACAM;
+			alignCamera();
+			System.out.println("down");
+			return false;
+		});
+		right.addListener((Event e) -> {
+		
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			camX -= DELTACAM;
+			alignCamera();
+			System.out.println("right");
+			return false;
+		});
+		left.addListener((Event e) -> {
+			
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			camX += DELTACAM;
+			alignCamera();
+			System.out.println("Left");
+			return false;
+		});
+	}
+
+	public void alignCamera() {
+		Camera cam = mainStage.getCamera();
+		Viewport v = mainStage.getViewport(); // center camera on actor
+		cam.position.set(camX, camY, 0); // bound
+		// camera to layout
+//		cam.position.x = MathUtils.clamp(cam.position.x, cam.viewportWidth / 2,
+//				worldBounds.width - cam.viewportWidth / 2);
+//		cam.position.y = MathUtils.clamp(cam.position.y, cam.viewportHeight / 2,
+//				worldBounds.height - cam.viewportHeight / 2);
+		cam.update();
+	}
+
+	private Button createButton(String img) {
+		ButtonStyle buttonStyle = new ButtonStyle();
+		Texture buttonTex = new Texture(Gdx.files.internal(img));
+		TextureRegion buttonRegion = new TextureRegion(buttonTex);
+		buttonStyle.up = new TextureRegionDrawable(buttonRegion);
+		Button b = new Button(buttonStyle);
+		b.setColor(Color.CYAN);
+		return b;
+	}
+
+	@Override
+	public void update(float dt) {
+		// TODO Auto-generated method stub
+
+	}
+}

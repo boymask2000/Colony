@@ -1,0 +1,25 @@
+package com.colony.fixed;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.buildings.BuildingsHub;
+import com.colony.buildings.EdificioFabbrica;
+import com.colony.enums.Materiale;
+import com.colony.enums.TipoEdificio;
+
+public class Albero extends BaseActor {
+	public Albero(float x, float y, Stage s) {
+
+		super(x, y, s);
+
+		String animations[] = { "tree.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+	}
+
+	@Override
+	public void refreshEdificio() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

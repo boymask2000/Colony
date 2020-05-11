@@ -1,0 +1,20 @@
+package com.colony.buildings;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.commons.Anagrafica;
+
+public class CampoGrano extends Coltivatore{
+
+	public CampoGrano(float x, float y, Stage s, BaseActor act, String name) {
+		super(x, y, s, act, name);
+		
+	}
+
+	@Override
+	protected void createItem(float posX, float posY) {
+		Anagrafica.createAlbero(posX, posY, mainStage);
+		
+	}
+
+}

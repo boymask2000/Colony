@@ -1,0 +1,42 @@
+package com.colony.commons;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class GiacenzaEdificio {
+	private Map<Materiale, Integer> map = new HashMap<Materiale, Integer>();
+
+	public void addMateriale(Materiale m) {
+		Integer count = map.get(m);
+		if (count == null)
+			map.put(m, 1);
+		else
+			map.put(m, count + 1);
+	}
+	public void addMateriale(Materiale m, int qta) {
+		Integer count = map.get(m);
+		if (count == null)
+			map.put(m, qta);
+		else
+			map.put(m, count + qta);
+	}
+
+	public void removeMateriale(Materiale m) {
+		Integer count = map.get(m);
+		if (count != null)
+			map.put(m, count - 1);
+	}
+	public void removeMateriale(Materiale m, int qta) {
+		Integer count = map.get(m);
+		if (count != null)
+			map.put(m, count - qta);
+	}
+
+	public int getGiacenzaMateriale(Materiale m) {
+		Integer count = map.get(m);
+		if (count == null)
+			return 0;
+		return count;
+	}
+
+}

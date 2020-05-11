@@ -1,0 +1,29 @@
+package com.colony.buildings.actors;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.Draggable;
+import com.colony.buildings.Pozzo;
+
+public class PozzoActor extends Draggable {
+
+	
+ 
+
+	public PozzoActor(float x, float y) {
+		super(x, y);
+	
+		
+	}
+	public PozzoActor(float x, float y, Stage s) {
+		super(x, y, s);
+		edificio = new Pozzo(x,y,s);
+	
+	
+	
+	}
+	public void loadAnim() {
+		String animations[] ={ "pozzo.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+		
+	}
+}

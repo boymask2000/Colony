@@ -1,0 +1,81 @@
+package com.colony.buildings.abst;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
+import com.colony.BaseActor;
+import com.colony.buildings.actors.Agent;
+import com.colony.buildings.actors.Mission;
+import com.colony.buildings.actors.PozzoActor;
+import com.colony.commons.Anagrafica;
+import com.colony.commons.NotifyFromAgent;
+import com.colony.commons.Terreno;
+import com.colony.fixed.Albero;
+
+public abstract class Coltivatore extends EdificioFabbrica implements NotifyFromAgent {
+
+	private long lastTimeWorked = 0;
+	private boolean missionComplete = true;
+	protected float sizeArea = 100;
+	protected float elementoMargin = 20;//Terreno.MARGIN;
+
+	public Coltivatore(float x, float y, Stage s, BaseActor act, String name) {
+		super(x, y, s, act, name);
+init();
+	}
+
+	public void notifyMissionComplete() {
+		missionComplete = true;
+		lastTimeWorked = (new Date()).getTime();
+	}
+
+	List<Vector2> lVector = new ArrayList<>();
+
+	private void init() {
+		float startX = getX() + 50;
+		float startY = getY() + 50;
+		for (float xx = startX; xx < startX + sizeArea; xx += elementoMargin)
+			for (float yy = startY; yy < startY + sizeArea; yy += elementoMargin) {
+				lVector.add(new Vector2(xx, yy));
+			}
+	}
+
+	int index = 0;
+
+	@Override
+	public void work() {
+		if (!missionComplete)
+			return;
+
+		Date d = new Date();
+
+		if (d.getTime() - lastTimeWorked < 2 * 1000)
+			return;
+
+		if (index >= lVector.size())
+			return;
+
+		Vector2 v = lVector.get(index);index++;
+
+		Agent a = new Agent(getX(), getY(), mainStage, this);
+		missionComplete = false;
+		a.goMission(v.x, v.y, new Mission() {
+
+			@Override
+			public void exec() {
+				createItem(v.x, v.y);
+
+			}
+		});
+
+	}
+
+	
+
+	protected abstract void createItem(float posX, float posY);
+
+}

@@ -1,0 +1,27 @@
+package com.colony.commons;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Terreno {
+	public static final int MARGIN=10;
+	
+	private Map<String, Boolean> map = new HashMap<String, Boolean>();
+	
+	public boolean isFree( float x, float y) {
+		int nX=normalize(x);
+		int nY=normalize(y);
+		return true;
+	}
+
+	public int normalize(float y) {
+		int i = (int)y / MARGIN;
+		
+		return i*MARGIN;
+	}
+	public static void main(String s[]) {
+		Terreno t = new Terreno();
+		
+		System.out.println(t.normalize( (float) 12.5434));
+	}
+}

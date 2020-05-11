@@ -1,0 +1,15 @@
+package com.colony.enums;
+
+public enum Materiale {
+	ACQUA("acqua.png"), //
+	TRONCO("acqua.png"), //
+	ASSE_LEGNO("acqua.png") //
+	;
+
+	private final String img;
+
+	private Materiale(String img) {
+		this.img = img;
+	}
+
+}

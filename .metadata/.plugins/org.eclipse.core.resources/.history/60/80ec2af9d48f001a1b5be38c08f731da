@@ -1,0 +1,40 @@
+package com.colony.buildings.actors;
+
+import java.util.Date;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.Draggable;
+import com.colony.buildings.Pozzo;
+
+public class PozzoActor extends Draggable {
+	private Pozzo pozzo;
+	private long lastTime=0;
+	
+	public void refreshEdificio() {
+		Date d = new Date();
+		if (d.getTime() - lastTime < 2 * 1000)
+			return;
+		lastTime=d.getTime();
+		
+		pozzo.work();
+	}
+ 
+
+	public PozzoActor(float x, float y) {
+		super(x, y);
+	
+		
+	}
+	public PozzoActor(float x, float y, Stage s) {
+		super(x, y, s);
+		pozzo = new Pozzo(x,y);
+	
+	
+	
+	}
+	public void loadAnim() {
+		String animations[] ={ "pozzo.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+		
+	}
+}

@@ -1,0 +1,8 @@
+package com.colony.enums;
+
+public enum TipoElemento {
+	POZZO, //
+	CASTELLO, //
+	BOSCAIOLO, //
+	ALBERO //
+}

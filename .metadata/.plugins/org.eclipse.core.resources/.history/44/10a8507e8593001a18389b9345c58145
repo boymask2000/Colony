@@ -1,0 +1,13 @@
+package com.colony.buildings;
+
+import com.colony.commons.Anagrafica;
+
+public class CampoGrano extends Coltivatore{
+
+	@Override
+	protected void createItem(float posX, float posY) {
+		Anagrafica.createAlbero(posX, posY, mainStage);
+		
+	}
+
+}

@@ -1,0 +1,58 @@
+package com.colony.buildings;
+
+import java.util.Date;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.buildings.actors.Agent;
+import com.colony.buildings.actors.Mission;
+import com.colony.buildings.actors.PozzoActor;
+import com.colony.fixed.Albero;
+
+public class EdificioSuArea extends Edificio {
+	private int timeToWork = 15;
+	private long lastTimeWorked = 0;
+
+	protected float sizeArea = 300;
+
+	public EdificioSuArea(float x, float y, Stage s, BaseActor act) {
+		super(x, y, s, act);
+
+	}
+
+	public void notifyMissionComplete() {
+		missionComplete = true;
+		lastTimeWorked = (new Date()).getTime();
+	}
+
+	private boolean missionComplete = true;
+
+	@Override
+	public void work() {
+		if (!missionComplete)
+			return;
+
+		Date d = new Date();
+
+		if (d.getTime() - lastTimeWorked < timeToWork * 1000)
+			return;
+
+		Agent a = new Agent(getX(), getY(), mainStage, this);
+
+		
+
+		float posX = (float) (x + 2 * sizeArea * (Math.random() - 0.5));
+		float posY = (float) (y + 2 * sizeArea * (Math.random() - 0.5));
+		missionComplete = false;
+		a.goMission(posX, posY, new Mission() {
+
+			@Override
+			public void exec() {
+				new Albero(posX, posY, mainStage);
+
+			}
+		});
+
+	}
+
+}

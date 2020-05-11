@@ -1,0 +1,45 @@
+package com.colony.buildings.actors;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.buildings.Pozzo;
+import com.colony.buildings.abst.InfoPanelActor;
+import com.colony.buildings.actors.infopanels.InfoPanelCastello;
+import com.colony.enums.TipoElemento;
+
+public class PozzoActor extends InfoPanelActor {
+
+	public PozzoActor(float x, float y, Stage s) {
+		super(x, y, s, TipoElemento.POZZO);
+
+		edificio = new Pozzo(x, y, s, this);
+
+	}
+
+	@Override
+	protected void loadAnimStopped() {
+		String animations[] = { "pozzo/stopped/pozzoStopped.gif"};
+		loadAnimationFromFiles(animations, 0.1f, true);
+	}
+	@Override
+	public void loadAnimWorking() {
+		String animations[] = { "pozzo/working/frame_00_delay-0.1s.gif",
+				"pozzo/working/frame_01_delay-0.1s.gif",
+				"pozzo/working/frame_02_delay-0.1s.gif",
+				"pozzo/working/frame_03_delay-0.1s.gif",
+				"pozzo/working/frame_04_delay-0.1s.gif",
+				"pozzo/working/frame_05_delay-0.1s.gif",
+				"pozzo/working/frame_06_delay-0.1s.gif",
+				"pozzo/working/frame_07_delay-0.1s.gif",
+				"pozzo/working/frame_08_delay-0.1s.gif",
+				"pozzo/working/frame_09_delay-0.1s.gif",
+				"pozzo/working/frame_10_delay-0.1s.gif"
+		};
+		loadAnimationFromFiles(animations, 0.1f, true);
+
+	}
+	@Override
+	protected void showInfoPanel() {
+		new InfoPanelCastello(mainStage, getEdificio());
+		
+	}
+}

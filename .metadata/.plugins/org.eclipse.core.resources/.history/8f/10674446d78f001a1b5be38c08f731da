@@ -1,0 +1,17 @@
+package com.colony.buildings;
+
+public class QuartierGenerale extends Edificio{
+
+	public QuartierGenerale(float x, float y) {
+		super(x, y);
+		
+		
+		
+	}
+
+	@Override
+	public void work() {
+	
+	}
+
+}

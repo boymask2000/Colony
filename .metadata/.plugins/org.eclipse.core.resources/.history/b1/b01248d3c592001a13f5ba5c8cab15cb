@@ -1,0 +1,23 @@
+package com.colony.buildings.actors;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.buildings.Taglialegna;
+import com.colony.enums.TipoElemento;
+
+public class TaglialegnaActor extends BaseActor {
+ 
+
+	public TaglialegnaActor(float x, float y, Stage s) {
+		super(x, y, s, TipoElemento.TAGLIALEGNA);
+		edificio = new Taglialegna(x, y, s, this);
+	
+	}
+	public void loadAnim() {
+		String animations[] ={ "boscaiolo.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+		
+	}
+	
+
+}

@@ -1,0 +1,28 @@
+package com.colony.buildings.actors;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.Draggable;
+import com.colony.commons.Anagrafica;
+import com.colony.enums.TipoElemento;
+
+public class EdificioSuAreaActor extends Draggable {
+
+
+
+	public EdificioSuAreaActor(float x, float y, Stage s) {
+		super(x, y, s, TipoElemento.EDIFICIO_SU_AREA);
+
+	}
+
+	public void loadAnim() {
+		String animations[] = { "pozzo.png" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+
+	}
+
+	@Override
+	protected void notifyEndDragging() {
+		edificio = Anagrafica.createEdificioSuArea(getX(), getY(), mainStage, this);
+
+	}
+}
