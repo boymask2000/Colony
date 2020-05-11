@@ -5,7 +5,7 @@ public enum Materiale {
 	TRONCO("tronco.png"), //
 	ASSE_LEGNO("asse.png") //
 , FASCIO_GRANO("covone.png"), 
-FARINA("covone.png")
+FARINA("covone.png"), PANE("covone.png")
 	;
 
 	private final String img;

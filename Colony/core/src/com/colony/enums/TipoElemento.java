@@ -13,5 +13,6 @@ public enum TipoElemento {
 	SEGHERIA, //
 	CAMPO_GRANO,//
 	GRANO, //
-	MULINO
+	MULINO, //
+	 FORNAIO
 }

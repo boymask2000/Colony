@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.colony.BaseActor;
-import com.colony.buildings.EdificioSuArea;
 import com.colony.buildings.abst.Edificio;
 import com.colony.buildings.actors.BoscaioloActor;
 import com.colony.buildings.actors.CampoGranoActor;
 import com.colony.buildings.actors.CastelloActor;
+import com.colony.buildings.actors.FornaioActor;
 import com.colony.buildings.actors.MulinoActor;
 import com.colony.buildings.actors.PozzoActor;
 import com.colony.buildings.actors.SegheriaActor;
@@ -78,6 +78,12 @@ public class Anagrafica {
 	
 	public static MulinoActor createMulino(float x, float y, Stage stage) {
 		MulinoActor p = new MulinoActor(x, y, stage);
+		actors.add(p);
+		return p;
+		
+	}
+	public static FornaioActor createFornaio(float x, float y, Stage stage) {
+		FornaioActor p = new FornaioActor(x, y, stage);
 		actors.add(p);
 		return p;
 		
@@ -157,6 +163,7 @@ public class Anagrafica {
 		return out;
 	}
 
+	
 	
 
 }

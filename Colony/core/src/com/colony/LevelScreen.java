@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.colony.buildings.drag.BoscaioloDrag;
 import com.colony.buildings.drag.CampoGranoDrag;
 import com.colony.buildings.drag.CastelloDrag;
+import com.colony.buildings.drag.FornaioDrag;
 import com.colony.buildings.drag.MulinoDrag;
 import com.colony.buildings.drag.PozzoDrag;
 import com.colony.buildings.drag.SegheriaDrag;
@@ -42,6 +43,7 @@ public class LevelScreen extends BaseScreen {
 		Button pozzo = createButton("pozzo/working/frame_00_delay-0.1s.gif");
 		Button mulino = createButton("mulino/working/mulino_0.gif");
 		Button taglialegna = createButton("taglialegna.png");
+		Button fornaio = createButton("fornaio/working/fornaio.png");
 
 		Button right = createButton("right.png");
 		Button left = createButton("left.png");
@@ -55,6 +57,7 @@ public class LevelScreen extends BaseScreen {
 		uiTable.row();
 		uiTable.add().expandX().top();
 		uiTable.add(mulino);
+		uiTable.add(fornaio);
 		uiTable.row();
 		uiTable.add().expandX().top();
 		uiTable.add(taglialegna);
@@ -74,6 +77,14 @@ public class LevelScreen extends BaseScreen {
 		uiTable.add(up);
 		uiTable.add(down);
 
+		fornaio.addListener((Event e) -> {
+
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			new FornaioDrag(10, 10, mainStage);
+			System.out.println("mulino");
+			return false;
+		});
 		mulino.addListener((Event e) -> {
 
 			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
