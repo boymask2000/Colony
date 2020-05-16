@@ -1,0 +1,214 @@
+package com.colony.commons;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.ai.pfa.Connection;
+import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
+import com.badlogic.gdx.ai.pfa.GraphPath;
+import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
+import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
+
+public class CartinaStradale implements IndexedGraph<Milestone> {
+	private static List<TrattoStrada> strade = new ArrayList<TrattoStrada>();
+	private static List<Milestone> mstone = new ArrayList<Milestone>();
+	private MilestoneHeuristic heuristic = new MilestoneHeuristic();
+
+//	public static void main(String s[]) {
+//		Stage stage = new Stage();
+//		Milestone m1 = new Milestone(10, 10, stage);
+//		Milestone m2 = new Milestone(11, 10, stage);
+//		Milestone m3 = new Milestone(12, 10, stage);
+//		Milestone m4 = new Milestone(13, 10, stage);
+//		Milestone m5 = new Milestone(14, 10, stage);
+//
+//		mstone.add(m1);
+//		mstone.add(m2);
+//		mstone.add(m3);
+//		mstone.add(m4);
+//		mstone.add(m5);
+//		TrattoStrada ta=new TrattoStrada(m1, m4, stage);
+//		TrattoStrada tb=new TrattoStrada(m1, m2, stage);
+//		TrattoStrada tc=new TrattoStrada(m2, m3, stage);
+//		TrattoStrada td=new TrattoStrada(m3, m5, stage);
+//		TrattoStrada te=new TrattoStrada(m4, m5, stage);
+//
+//		CartinaStradale c = new CartinaStradale();
+//		GraphPath<Milestone> gr = c.findPath(m1, m5);
+//		System.out.println();
+//	}
+
+	public Milestone calcPath(//
+			List<Milestone> path, //
+			List<Milestone> bestPath, //
+			Milestone a, //
+			Milestone b, //
+			int bestCost, //
+			int currentCost) {//
+
+		Milestone k = null;
+		if (a == null || b == null)
+			return null;
+		Array<TrattoStrada> strs = a.getStrade();
+		for (int i = 0; i < strs.size; i++) {
+			TrattoStrada t = strs.get(i);
+
+			if (currentCost + 1 >= bestCost)
+				continue;
+
+			if (path.contains(t.getToNode()))
+				continue;
+
+			path.add(t.getToNode());
+
+			if (t.getToNode() == b) {
+				k = t.getToNode();
+				bestCost = currentCost;
+				setBestPath(path,bestPath);
+			} else
+				calcPath(path, bestPath,t.getToNode(), b, bestCost, currentCost + 1);
+
+			path.remove(path.size() - 1);
+
+		}
+		return k;
+
+	}
+
+	private void setBestPath(List<Milestone> path, List<Milestone> bestPath) {
+		bestPath.clear();
+		for( Milestone m:path)bestPath.add(m);
+	
+}
+
+	public Milestone findPath(Milestone a, Milestone b) {
+		List<Milestone> path = new ArrayList<Milestone>();
+		Milestone m = calcPath(path, a, b, 1000000, 0);
+		if (path.size() > 0) {
+			return path.get(0);
+
+		}
+		return m;
+	}
+
+	public Milestone findPath2(Milestone startCity, Milestone goalCity) {
+		GraphPath<Milestone> cityPath = new DefaultGraphPath<Milestone>();
+		new IndexedAStarPathFinder<>(this).searchNodePath(startCity, goalCity, heuristic, cityPath);
+		return null;
+	}
+
+	public static TrattoStrada setStart(int x, int y, Stage mainStage) {
+
+		TrattoStrada t = new TrattoStrada(x, y, mainStage);
+		strade.add(t);
+
+		putStone(x, y, mainStage, t, true);
+
+		return t;
+	}
+
+	public static void setEnd(TrattoStrada tratto, int x, int y) {
+		// putStone(x, y, tratto.getStage(), tratto, false);
+
+		tratto.setEnd(x, y);
+		putStone(x, y, tratto.getStage(), tratto, false);
+
+	}
+
+	private static void putStone(int x, int y, Stage mainStage, TrattoStrada t, boolean start) {
+		Milestone m = searchMilestone(x, y);
+		if (m == null) {
+			m = new Milestone(x, y, mainStage);
+			mstone.add(m);
+		}
+		if (m.addTratto(t))
+			if (start) {
+				t.setMilestoneStart(m);
+				t.setStart(new Vector2(m.getPosition().x, m.getPosition().y));
+			} else {
+				t.setMilestoneEnd(m);
+				t.setEnd(new Vector2(m.getPosition().x, m.getPosition().y));
+			}
+	}
+
+	public static Milestone searchNearestMilestone(int x, int y, float maxDist) {
+		if (mstone.size() == 0)
+			return null;
+		Milestone best = mstone.get(0);
+		Vector2 bestPos = best.getPosition();
+		float dist = Utils.calcDist(x, y, bestPos.x, bestPos.y);
+		for (Milestone m : mstone) {
+			Vector2 vm = m.getPosition();
+			float d = Utils.calcDist(x, y, vm.x, vm.y);
+			if (d < dist) {
+				dist = d;
+				bestPos = vm;
+				best = m;
+			}
+		}
+
+		if (dist > maxDist)
+			return null;
+		return best;
+
+	}
+
+	public static Milestone searchMilestone(int x, int y) {
+		return searchNearestMilestone(x, y, 2000);
+
+	}
+
+	public static TrattoStrada getNearestTratto(float x, float y) {
+		if (strade.size() == 0)
+			return null;
+		TrattoStrada bestStrada = strade.get(0);
+		int best = 1000000;
+
+		for (TrattoStrada t : strade) {
+			int dist = (int) distanzaPuntoStrada(x, y, t);
+			if (dist < best) {
+				best = dist;
+				bestStrada = t;
+			}
+			if (best < 2000)
+				break;
+		}
+		return bestStrada;
+	}
+
+	// Non va bene. Da correggere
+	private static float distanzaPuntoStrada(float x, float y, TrattoStrada t) {
+		float xStart = t.getStart().x;
+		float yStart = t.getStart().y;
+		float xEnd = t.getEnd().x;
+		float yEnd = t.getEnd().y;
+
+		float d1 = Utils.calcDist(xEnd, yEnd, x, y);
+		float d2 = Utils.calcDist(xStart, yStart, x, y);
+		if (d1 < d2)
+			return d1;
+
+		return d2;
+	}
+
+	@Override
+	public Array<Connection<Milestone>> getConnections(Milestone fromNode) {
+		Array<Connection<Milestone>> r = new Array<Connection<Milestone>>(fromNode.getStrade());
+		return r;
+
+	}
+
+	@Override
+	public int getIndex(Milestone node) {
+		return node.getIndex();
+	}
+
+	@Override
+	public int getNodeCount() {
+		return mstone.size();
+	}
+
+}

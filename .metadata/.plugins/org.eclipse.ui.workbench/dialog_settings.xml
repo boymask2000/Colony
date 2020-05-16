@@ -15,9 +15,9 @@
 		<item key="WizardFileSystemResourceImportPage1.STORE_OVERWRITE_EXISTING_RESOURCES_ID" value="false"/>
 		<item key="WizardFileSystemResourceImportPage1.STORE_CREATE_CONTAINER_STRUCTURE_ID" value="false"/>
 		<list key="WizardFileSystemResourceImportPage1.STORE_SOURCE_NAMES_ID">
+			<item value="/home/giovanni/Desktop"/>
 			<item value="/home/giovanni/Desktop/q/Mulino"/>
 			<item value="/home/giovanni/Desktop/q"/>
-			<item value="/home/giovanni/Desktop"/>
 			<item value="/home/giovanni/WS/Colony/core/assets"/>
 		</list>
 	</section>

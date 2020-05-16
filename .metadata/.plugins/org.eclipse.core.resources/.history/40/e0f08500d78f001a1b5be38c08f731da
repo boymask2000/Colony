@@ -1,5 +1,0 @@
-package com.colony.commons;
-
-public enum Materiale {
-ACQUA
-}

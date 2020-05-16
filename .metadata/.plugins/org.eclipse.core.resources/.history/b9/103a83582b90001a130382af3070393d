@@ -1,5 +1,0 @@
-package com.colony.inter;
-
-public enum Materiale {
-ACQUA, TRONCO, ASSSE_LEGNO
-}

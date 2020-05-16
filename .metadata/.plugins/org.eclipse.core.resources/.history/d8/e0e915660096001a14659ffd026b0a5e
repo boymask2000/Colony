@@ -1,0 +1,5 @@
+package com.colony.buildings.abst;
+
+public class ElementOnRoad {
+
+}

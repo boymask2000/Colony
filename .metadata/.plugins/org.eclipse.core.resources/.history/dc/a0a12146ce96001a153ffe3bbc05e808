@@ -1,0 +1,115 @@
+package com.colony.commons;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+public class CartinaStradale {
+	private static List<TrattoStrada> strade = new ArrayList<TrattoStrada>();
+	private static List<Milestone> mstone = new ArrayList<Milestone>();
+
+	public void calcPath(Milestone a, Milestone b) {
+
+		TrattoStrada[] strs = a.getStrade();
+		for (int i = 0; i < strs.length; i++) {
+			TrattoStrada t = strs[i];
+			if (t.getMilestoneEnd() == b) {
+
+			} else
+				calcPath(t, b);
+		}
+
+	}
+
+	public static TrattoStrada setStart(int x, int y, Stage mainStage) {
+
+		TrattoStrada t = new TrattoStrada(x, y, mainStage);
+		strade.add(t);
+
+		putStone(x, y, mainStage, t, true);
+
+		return t;
+	}
+
+	public static void setEnd(TrattoStrada tratto, int x, int y) {
+		// putStone(x, y, tratto.getStage(), tratto, false);
+
+		tratto.setEnd(x, y);
+		putStone(x, y, tratto.getStage(), tratto, false);
+
+	}
+
+	private static void putStone(int x, int y, Stage mainStage, TrattoStrada t, boolean start) {
+		Milestone m = searchMilestone(x, y);
+		if (m == null) {
+			m = new Milestone(x, y, mainStage);
+			mstone.add(m);
+		}
+		if (m.addTratto(t))
+			if (start) {
+				t.setMilestoneStart(m);
+				t.setStart(new Vector2(m.getPosition().x, m.getPosition().y));
+			} else {
+				t.setMilestoneEnd(m);
+				t.setEnd(new Vector2(m.getPosition().x, m.getPosition().y));
+			}
+	}
+
+	private static Milestone searchMilestone(int x, int y) {
+		if (mstone.size() == 0)
+			return null;
+		Milestone best = mstone.get(0);
+		Vector2 bestPos = best.getPosition();
+		float dist = Utils.calcDist(x, y, bestPos.x, bestPos.y);
+		for (Milestone m : mstone) {
+			Vector2 vm = m.getPosition();
+			float d = Utils.calcDist(x, y, vm.x, vm.y);
+			if (d < dist) {
+				dist = d;
+				bestPos = vm;
+				best = m;
+			}
+		}
+		System.out.println("dist=" + dist);
+		if (dist > 2000)
+			return null;
+		return best;
+
+	}
+
+	public static TrattoStrada getNearestTratto(float x, float y) {
+		if (strade.size() == 0)
+			return null;
+		TrattoStrada bestStrada = strade.get(0);
+		int best = 1000000;
+
+		for (TrattoStrada t : strade) {
+			int dist = (int) distanzaPuntoStrada(x, y, t);
+			if (dist < best) {
+				best = dist;
+				bestStrada = t;
+			}
+			if (best < 2000)
+				break;
+		}
+		return bestStrada;
+	}
+
+	// Non va bene. Da correggere
+	private static float distanzaPuntoStrada(float x, float y, TrattoStrada t) {
+		float xStart = t.getStart().x;
+		float yStart = t.getStart().y;
+		float xEnd = t.getEnd().x;
+		float yEnd = t.getEnd().y;
+
+		float d1 = Utils.calcDist(xEnd, yEnd, x, y);
+		float d2 = Utils.calcDist(xStart, yStart, x, y);
+		if (d1 < d2)
+			return d1;
+
+		return d2;
+	}
+
+}

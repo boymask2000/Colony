@@ -1,5 +1,0 @@
-package com.colony.enums;
-
-public enum Materiale {
-ACQUA, TRONCO, ASSSE_LEGNO
-}

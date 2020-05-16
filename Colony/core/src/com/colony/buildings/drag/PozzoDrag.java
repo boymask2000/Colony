@@ -1,6 +1,7 @@
 package com.colony.buildings.drag;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
 import com.colony.commons.Anagrafica;
 import com.colony.enums.TipoElemento;
 
@@ -19,8 +20,8 @@ public class PozzoDrag extends Draggable {
 	}
 	
 	@Override
-	protected void setFinalEdificio() {
-		Anagrafica.createPozzo(getX(), getY(), mainStage);
+	protected BaseActor setFinalEdificio() {
+		return Anagrafica.createPozzo(getX(), getY(), mainStage);
 		
 		
 	}

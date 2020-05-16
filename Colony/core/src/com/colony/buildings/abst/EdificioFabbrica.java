@@ -12,6 +12,7 @@ import com.colony.commons.GiacenzaEdificio;
 import com.colony.commons.MaterialeNecessario;
 import com.colony.commons.OrdersHub;
 import com.colony.commons.Ordine;
+import com.colony.commons.TrasporterHub;
 import com.colony.enums.Materiale;
 import com.colony.enums.StatoElemento;
 import com.colony.enums.TipoElemento;
@@ -36,6 +37,8 @@ public class EdificioFabbrica extends Edificio {
 
 	@Override
 	public void work() {
+		
+		setMilestone();
 
 		Date d = new Date();
 		if (d.getTime() - lastTimeWorked < timeToWork * 1000)
@@ -66,16 +69,14 @@ public class EdificioFabbrica extends Edificio {
 			return;
 
 		Ordine o = OrdersHub.getOrdine(prodotto);
-		if (o != null) {
-		
+		if (o != null) 
 			inviaProdotto(o);
-		}
-
-		if (numArticoliProdotti >= maxGiacenza) {
 		
+
+		if (numArticoliProdotti >= maxGiacenza) 
 			inviaProdottoToCastello(prodotto);
-			return;
-		}
+		
+		
 
 	}
 
@@ -84,16 +85,10 @@ public class EdificioFabbrica extends Edificio {
 	}
 
 	protected void inviaProdotto(Ordine o) {
-		numArticoliProdotti--;
-		Carrier r = new Carrier(x, y, o, mainStage);
-
+	
 		Edificio target = Anagrafica.getActorById(o.getIdEdificio());
-		r.setTarget(target);
-
-		float deltax = target.getX() - x;
-		float deltay = target.getY() - y;
-
-		r.setVelocityVec(deltax, deltay);
+		
+		creaTrasporto(target, o);
 	}
 
 	protected void inviaProdottoToCastello(Materiale m) {
@@ -105,16 +100,22 @@ public class EdificioFabbrica extends Edificio {
 		
 		Ordine o = new Ordine(castello.getId(), m);
 
+		creaTrasporto(castello, o);
+	}
+
+	private void creaTrasporto(Edificio ed, Ordine o) {
 		numArticoliProdotti--;
 		Carrier r = new Carrier(x, y, o, mainStage);
-		r.setTarget(castello);
+		r.setTarget(ed);
 
-		float deltax = castello.getX() - x;
-		float deltay = castello.getY() - y;
+		float deltax = ed.getX() - x;
+		float deltay = ed.getY() - y;
 
 		r.setVelocityVec(deltax, deltay);
-
+		
+		TrasporterHub.createTrasport(this, ed, o);
 	}
+	
 
 	private void produci() {
 		Date d = new Date();
@@ -182,7 +183,7 @@ public class EdificioFabbrica extends Edificio {
 	
 		materiPrimeInGiacenza.addMateriale(ordine.getMateriale());
 		materiePrimeOrdinate.remove(ordine.getMateriale());
-		materiPrimeInGiacenza.dump();
+	//	materiPrimeInGiacenza.dump();
 
 	}
 }

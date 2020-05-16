@@ -1,0 +1,29 @@
+package com.colony.commons;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+public class TrattoStrada extends Actor{
+
+	private Vector2 start = new Vector2();
+	private Vector2 end = new Vector2();
+
+	public TrattoStrada(float x, float y) {
+		start.x = x;
+		start.y = y;
+	}
+
+	public Vector2 getStart() {
+		return start;
+	}
+
+	public Vector2 getEnd() {
+		return end;
+	}
+
+	public void setEnd(float x, float y) {
+		end.x = x;
+		end.y = y;
+	}
+
+}

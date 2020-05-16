@@ -1,0 +1,65 @@
+package com.colony.commons;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+public class CartinaStradale {
+	private static List<TrattoStrada> strade = new ArrayList<TrattoStrada>();
+	private static List<Milestone> mstone = new ArrayList<Milestone>();
+
+	public static TrattoStrada setStart(int x, int y, Stage mainStage) {
+
+		TrattoStrada t = new TrattoStrada(x, y, mainStage);
+		strade.add(t);
+
+		putStone(x, y, mainStage, t, true);
+
+		return t;
+	}
+
+	private static void putStone(int x, int y, Stage mainStage, TrattoStrada t, boolean start) {
+		Milestone m = searchMilestone(x, y);
+		if (m == null)
+			m = new Milestone(x, y, mainStage);
+		m.addTratto(t);
+		if(start) {
+			t.set
+		}
+
+	}
+
+	public static void setEnd(TrattoStrada tratto, int x, int y) {
+		Milestone m = searchMilestone(x, y);
+		if (m != null)
+			return;
+
+		tratto.setEnd(x, y);
+		putStone(x, y, tratto.getStage(), tratto, false);
+
+	}
+
+	private static Milestone searchMilestone(int x, int y) {
+		if (mstone.size() == 0)
+			return null;
+		Milestone best = mstone.get(0);
+		Vector2 bestPos = best.getPosition();
+		float dist = Utils.calcDist(x, y, bestPos.x, bestPos.y);
+		for (Milestone m : mstone) {
+			Vector2 vm = m.getPosition();
+			float d = Utils.calcDist(bestPos.x, bestPos.y, vm.x, vm.y);
+			if (d < dist) {
+				dist = d;
+				bestPos = vm;
+				best = m;
+			}
+		}
+		if (dist > 30)
+			return null;
+		return best;
+
+	}
+
+}

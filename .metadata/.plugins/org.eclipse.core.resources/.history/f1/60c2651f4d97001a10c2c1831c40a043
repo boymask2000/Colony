@@ -1,0 +1,77 @@
+package com.colony.buildings.actors;
+
+import com.badlogic.gdx.ai.pfa.GraphPath;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.buildings.abst.Edificio;
+import com.colony.commons.CartinaStradale;
+import com.colony.commons.Milestone;
+import com.colony.enums.TipoElemento;
+
+public class Transporter extends BaseActor {
+	public static int IDLE = 0;
+	public static int STATUS_DEPOSITO_TO_SOURCE = 1;
+	public static int STATUS_SOURCE_TO_TARGET = 2;
+	public static int STATUS_TARGET_TO_DEPOSITO = 3;
+	public int currentStatus = IDLE;
+
+	private Edificio source;
+	private Edificio target;
+
+	private Edificio depositoHome;
+
+	private Edificio currentTarget = null;
+
+	private void moving() {
+		if (currentTarget == null)
+			return;
+
+	}
+
+	public void startMission(Edificio source, Edificio target) {
+		this.source = source;
+		this.target = target;
+		if (source.getMilestone() == null) {
+			System.out.println("source non su strada");
+			return;
+		}
+		if (target.getMilestone() == null) {
+			System.out.println("target non su strada");
+			return;
+		}
+		currentStatus = STATUS_DEPOSITO_TO_SOURCE;
+
+		CartinaStradale cartina = new CartinaStradale();
+		GraphPath<Milestone> graph = cartina.findPath(source.getMilestone(), target.getMilestone());
+		System.out.println("done");
+	}
+
+	public Transporter(Edificio depositoHome, Stage s, TipoElemento tipo) {
+		super(depositoHome.getX(), depositoHome.getY(), s, tipo);
+		loadAnimWorking();
+	}
+
+	public void setDepositoHome(Edificio depositoHome) {
+		this.depositoHome = depositoHome;
+	}
+
+	@Override
+	public void act(float dt) {
+		if (currentStatus == IDLE)
+			return;
+
+		super.act(dt);
+
+		applyPhysics(dt);
+		setAnimationPaused(!isMoving());
+		if (getSpeed() > 0)
+			setRotation(getMotionAngle());
+
+		moving();
+	}
+
+	@Override
+	public void loadAnimWorking() {
+
+	}
+}

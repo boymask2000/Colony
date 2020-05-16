@@ -1,0 +1,52 @@
+package com.colony.commons;
+
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+public class TrattoStrada extends Actor{
+
+	private Vector2 start = new Vector2();
+	private Vector2 end = new Vector2();
+	private Stage stage;
+
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
+	public TrattoStrada(float x, float y, Stage s) {
+		start.x = x;
+		start.y = y;
+		this.stage=s;
+	}
+
+	public Vector2 getStart() {
+		return start;
+	}
+
+	public Vector2 getEnd() {
+		return end;
+	}
+
+	public void setEnd(float x, float y) {
+		end.x = x;
+		end.y = y;
+	}
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);
+
+		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRenderer.setColor(100, 255, 0, 1);
+		shapeRenderer.rectLine(start.x, start.y, end.x, end.y, 4);
+		shapeRenderer.end();
+
+	}
+}

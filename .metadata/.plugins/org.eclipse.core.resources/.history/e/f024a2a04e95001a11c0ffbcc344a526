@@ -1,0 +1,56 @@
+package com.colony.commons;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.buildings.abst.Edificio;
+import com.colony.enums.TipoElemento;
+
+public class Milestone extends BaseActor {
+
+	private Vector2 start = new Vector2();
+	private Vector2 end = new Vector2();
+	private Stage stage;
+
+	public Stage getStage() {
+		return stage;
+	}
+
+	public Milestone(float x, float y, Stage s) {
+		super(x, y, s, TipoElemento.MILESTONE);
+		start.x = x;
+		start.y = y;
+		edificio = new Edificio(y, y, s, null, "") {
+
+			@Override
+			public void work() {
+			}
+		};
+		this.stage = s;	
+	}
+
+	public Vector2 getStart() {
+		return start;
+	}
+
+	public Vector2 getEnd() {
+		return end;
+	}
+
+	public void setEnd(float x, float y) {
+		end.x = x;
+		end.y = y;
+	}
+
+	@Override
+	public void loadAnimWorking() {
+		String animations[] = { "pozzo/working/frame_00_delay-0.1s.gif", "pozzo/working/frame_01_delay-0.1s.gif",
+				"pozzo/working/frame_02_delay-0.1s.gif", "pozzo/working/frame_03_delay-0.1s.gif",
+				"pozzo/working/frame_04_delay-0.1s.gif", "pozzo/working/frame_05_delay-0.1s.gif",
+				"pozzo/working/frame_06_delay-0.1s.gif", "pozzo/working/frame_07_delay-0.1s.gif",
+				"pozzo/working/frame_08_delay-0.1s.gif", "pozzo/working/frame_09_delay-0.1s.gif",
+				"pozzo/working/frame_10_delay-0.1s.gif" };
+		loadAnimationFromFiles(animations, 0.1f, true);
+
+	}
+}

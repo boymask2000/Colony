@@ -40,6 +40,12 @@ public class InfoPanelScreen implements Screen, InputProcessor {
 
 		uiStage = new Stage();
 		uiTable = new Table();
+	
+		BackgroundColor backgroundColor = new BackgroundColor("b2.png");
+		backgroundColor.setColor(2, 100, 228, 255); // r, g, b, a
+		uiTable.setBackground(backgroundColor);
+		
+		
 		uiTable.setFillParent(true);
 		uiStage.addActor(uiTable);
 

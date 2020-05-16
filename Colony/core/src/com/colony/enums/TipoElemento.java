@@ -9,10 +9,13 @@ public enum TipoElemento {
 	CARRIER, //
 	EDIFICIO_SU_AREA, //
 	CASA, //
-	TAGLIALEGNA,//
+	TAGLIALEGNA, //
 	SEGHERIA, //
-	CAMPO_GRANO,//
+	CAMPO_GRANO, //
 	GRANO, //
 	MULINO, //
-	 FORNAIO
+	FORNAIO, //
+	ROAD, //
+	MILESTONE //
+, TRANSPORTER
 }

@@ -1,0 +1,32 @@
+package com.colony.commons;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+public class CartinaStradale {
+	private static List<TrattoStrada> strade = new ArrayList<TrattoStrada>();
+
+	public static TrattoStrada setStart(int x, int y, Stage mainStage) {
+
+		TrattoStrada t = new TrattoStrada(x, y, mainStage);
+		strade.add(t);
+	
+		putStone(x, y, mainStage);
+
+		return t;
+	}
+
+	private static void putStone(int x, int y, Stage mainStage) {
+		new Milestone(x, y, mainStage);
+
+	}
+
+	public static void setEnd(TrattoStrada tratto, int x, int y) {
+		tratto.setEnd(x, y);
+		new Milestone(x, y, tratto.getStage());
+
+	}
+
+}

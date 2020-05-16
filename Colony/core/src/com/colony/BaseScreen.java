@@ -11,10 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public abstract class BaseScreen implements Screen, InputProcessor {
 	protected Stage mainStage;
 	protected Stage uiStage;
+	protected Stage streetStage;
 	protected Table uiTable;
 
 	public BaseScreen() {
 		mainStage = new Stage();
+		streetStage = new Stage();
 		uiStage = new Stage();
 		uiTable = new Table();
 		uiTable.setFillParent(true);
@@ -30,12 +32,17 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 	@Override
 	public void render(float dt) {
 		uiStage.act(dt);
+		streetStage.act(dt);
 		mainStage.act(dt);
 		update(dt);
+		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		mainStage.draw();
+		
+		
+		streetStage.draw();
 		uiStage.draw();
+		mainStage.draw();
 	}
 
 // methods required by Screen interface

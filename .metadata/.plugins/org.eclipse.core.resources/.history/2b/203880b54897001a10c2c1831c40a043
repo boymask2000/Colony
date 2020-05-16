@@ -1,0 +1,39 @@
+package com.colony.buildings.abst;
+
+import com.colony.commons.TrattoStrada;
+import com.colony.enums.TipoElemento;
+
+public class ElementOnRoad {
+	protected float x;
+	protected float y;
+	protected TipoElemento tipoElemento;
+	private TrattoStrada strada;
+	
+	public TrattoStrada getStrada() {
+		return strada;
+	}
+
+	public void setStrada(TrattoStrada strada) {
+		this.strada = strada;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+	public TipoElemento getTipoElemento() {
+		return tipoElemento;
+	}
+	
+}

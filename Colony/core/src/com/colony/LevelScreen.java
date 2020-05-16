@@ -18,6 +18,7 @@ import com.colony.buildings.drag.CastelloDrag;
 import com.colony.buildings.drag.FornaioDrag;
 import com.colony.buildings.drag.MulinoDrag;
 import com.colony.buildings.drag.PozzoDrag;
+import com.colony.buildings.drag.RoadDrag;
 import com.colony.buildings.drag.SegheriaDrag;
 import com.colony.buildings.drag.TaglialegnaDrag;
 
@@ -32,6 +33,8 @@ public class LevelScreen extends BaseScreen {
 		BaseActor.setWorldBounds(1500, 1500);
 
 		setButtons();
+		
+	//	TilemapActor tma = new TilemapActor("map.tmx", mainStage);
 	}
 
 	private void setButtons() {
@@ -43,6 +46,7 @@ public class LevelScreen extends BaseScreen {
 		Button pozzo = createButton("pozzo/working/frame_00_delay-0.1s.gif");
 		Button mulino = createButton("mulino/working/mulino_0.gif");
 		Button taglialegna = createButton("taglialegna.png");
+		Button road = createButton("street.png");
 		Button fornaio = createButton("fornaio/working/fornaio.png");
 
 		Button right = createButton("right.png");
@@ -66,6 +70,9 @@ public class LevelScreen extends BaseScreen {
 		uiTable.add().expandX().top();
 		uiTable.add(pozzo);
 		uiTable.add(castello);
+		uiTable.row();
+		uiTable.add().expandX().top();
+		uiTable.add(road);
 
 		uiTable.row();
 		uiTable.add().expandX().expandY().bottom();
@@ -76,6 +83,15 @@ public class LevelScreen extends BaseScreen {
 
 		uiTable.add(up);
 		uiTable.add(down);
+		
+		road.addListener((Event e) -> {
+
+			if (!(e instanceof InputEvent) || !((InputEvent) e).getType().equals(Type.touchDown))
+				return false;
+			new RoadDrag(10, 10, streetStage);
+
+			return false;
+		});
 
 		fornaio.addListener((Event e) -> {
 
@@ -188,6 +204,12 @@ public class LevelScreen extends BaseScreen {
 		cam.position.set(camX, camY, 0); // bound
 
 		cam.update();
+		
+//		Camera cams = streetStage.getCamera();
+//		Viewport vs = streetStage.getViewport(); // center camera on actor
+//		cams.position.set(camX, camY, 0); // bound
+//
+//		cams.update();
 	}
 
 	private Button createButton(String img) {

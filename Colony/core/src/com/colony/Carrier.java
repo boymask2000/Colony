@@ -14,7 +14,7 @@ public class Carrier extends BaseActor {
 	public Carrier(float x, float y, Ordine order, Stage s) {
 		super(x, y, s, TipoElemento.CARRIER);
 		this.ordine = order;
-		setSpeed(5);
+		setSpeed(1);
 		loadAnimWorking();
 	}
 

@@ -5,14 +5,13 @@ import com.colony.BaseActor;
 import com.colony.commons.Ordine;
 import com.colony.enums.TipoElemento;
 
-public abstract class Edificio {
+public abstract class Edificio extends ElementOnRoad{
 
 	protected int id;
-	protected float x;
-	protected float y;
+
 	protected Stage mainStage;
 	protected BaseActor actor;
-	protected TipoElemento tipoElemento;
+	
 	private String name;
 
 	public Edificio(float x, float y, Stage s, BaseActor act, String name) {
@@ -32,21 +31,7 @@ public abstract class Edificio {
 
 	public abstract void work();
 
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public float getY() {
-		return y;
-	}
+	
 
 	public int getId() {
 		return id;
@@ -60,8 +45,6 @@ public abstract class Edificio {
 
 	}
 
-	public TipoElemento getTipoElemento() {
-		return tipoElemento;
-	}
+	
 
 }

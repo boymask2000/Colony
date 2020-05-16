@@ -1,0 +1,13 @@
+package com.colony.commons;
+
+import com.colony.buildings.abst.Edificio;
+import com.colony.buildings.abst.EdificioFabbrica;
+
+public class TrasporterHub {
+
+	public static void createTrasport(Edificio partenza, Edificio destinazione, Ordine o) {
+		
+		
+	}
+
+}

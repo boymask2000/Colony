@@ -14,6 +14,7 @@ public class BoscaioloActor extends InfoPanelActor {
 
 	}
 
+	@Override
 	public void loadAnimWorking() {
 		String animations[] = { "boscaiolo.png" };
 		loadAnimationFromFiles(animations, 0.1f, true);
