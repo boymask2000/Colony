@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="nextX"/>
+		<item key="selection" value="Path"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="PATH"/>
+			<item value="depositoHome"/>
+			<item value="moving"/>
 			<item value="nextX"/>
 			<item value="numArticoliProdotti"/>
 			<item value="edificio"/>
 			<item value="lastTimeProduced"/>
 			<item value="grano"/>
-			<item value="mainStage"/>
-			<item value="boundaryPolygon ="/>
-			<item value="boundaryPolygon"/>
 		</list>
 		<list key="replacehistory">
 			<item value="tree"/>

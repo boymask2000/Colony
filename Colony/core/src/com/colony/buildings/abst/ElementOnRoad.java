@@ -43,11 +43,12 @@ public class ElementOnRoad {
 	public int getId() {
 		return id;
 	}
+
+
 	@Override
 	public String toString() {
-		return "ElementOnRoad [x=" + x + ", y=" + y + "]";
+		return "ElementOnRoad [id=" + id + "]";
 	}
-
 	protected void setMilestone() {
 		milestone = CartinaStradale.searchNearestMilestone((int)x, (int)y,200000);
 		if( milestone!=null)

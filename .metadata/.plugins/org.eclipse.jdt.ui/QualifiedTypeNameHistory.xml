@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.colony.buildings.Coltivatore"/>
     <fullyQualifiedTypeName name="com.colony.buildings.actors.CampoGranoActor"/>
     <fullyQualifiedTypeName name="com.colony.buildings.drag.CampoGranoDrag"/>
     <fullyQualifiedTypeName name="com.colony.buildings.CampoGrano"/>
@@ -60,4 +59,5 @@
     <fullyQualifiedTypeName name="com.colony.buildings.abst.Edificio"/>
     <fullyQualifiedTypeName name="com.colony.buildings.abst.ElementOnRoad"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.colony.BaseGame"/>
 </qualifiedTypeNameHistroy>

@@ -9,7 +9,7 @@ public class OrdersHub {
 	private static List<Ordine> ordini = new ArrayList<>();
 
 	public static void addOrder(Ordine o) {
-		System.out.println("creato order for "+o.getMateriale());
+	//	System.out.println("creato order for "+o.getMateriale());
 		ordini.add(o);
 	}
 

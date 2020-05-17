@@ -1,0 +1,75 @@
+package com.colony.buildings;
+
+import java.util.Date;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.colony.BaseActor;
+import com.colony.buildings.actors.Agent;
+import com.colony.buildings.actors.Mission;
+import com.colony.commons.Anagrafica;
+import com.colony.commons.NotifyFromAgent;
+import com.colony.enums.TipoElemento;
+import com.colony.fixed.CosaCheCresce;
+
+public class CollectorSuArea extends EdificioSuArea implements NotifyFromAgent {
+	private int timeToWork = 15;
+	private long lastTimeWorked = 0;
+	private boolean missionComplete = true;
+	protected float sizeArea = 300;
+	private TipoElemento targetType;
+
+	public CollectorSuArea(float x, float y, Stage s, BaseActor act, String name) {
+		super(x, y, s, act, name);
+
+	}
+
+	public void notifyMissionComplete() {
+		missionComplete = true;
+		lastTimeWorked = (new Date()).getTime();
+		numArticoliProdotti++;
+		System.out.println(prodotto + " " + numArticoliProdotti);
+		agent.remove();
+	}
+
+	Agent agent = null;
+
+	@Override
+	public void work() {
+		processOrders();
+		if (!missionComplete)
+			return;
+
+		Date d = new Date();
+
+		if (d.getTime() - lastTimeWorked < timeToWork * 1000)
+			return;
+
+	
+
+		CosaCheCresce target = Anagrafica.getNearestAdult(targetType, getX(), getY());
+		if (target == null)
+			return;
+		
+		agent = new Agent(getX(), getY(), mainStage, this);
+		
+		missionComplete = false;
+		agent.goMission(target.getX(), target.getY(), new Mission() {
+
+			@Override
+			public void exec() {
+				target.remove();
+				Anagrafica.removeActor(target);
+
+			}
+		});
+
+	}
+
+	public TipoElemento getTargetType() {
+		return targetType;
+	}
+
+	public void setTargetType(TipoElemento targetType) {
+		this.targetType = targetType;
+	}
+}

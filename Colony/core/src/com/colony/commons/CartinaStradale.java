@@ -27,21 +27,22 @@ public class CartinaStradale {
 
 		Milestone k = null;
 		if (a == null || b == null)
-			return null;
+			return null;// path.add(a);
 		List<Milestone> nears = getNears(a);
 		for (Milestone m : nears) {
-
-			if (currentCost + 1 >= bestCost)
-				continue;
 
 			if (path.contains(m))
 				continue;
 
 			path.add(m);
+			int cost = calcCost(path);
+			if (cost >= currentCost)
+				continue;
+			currentCost = cost;
 
 			if (m == b) {
 				k = m;
-				bestCost = currentCost;
+				bestCost = currentCost + 1;
 				setBestPath(path, bestPath);
 			} else
 				k = calcPath(path, m, b, bestCost, currentCost + 1);
@@ -51,6 +52,11 @@ public class CartinaStradale {
 		}
 		return k;
 
+	}
+
+	private int calcCost(List<Milestone> path) {
+
+		return path.size();
 	}
 
 	private List<Milestone> getNears(Milestone m) {
@@ -69,12 +75,12 @@ public class CartinaStradale {
 		m.remove();
 	}
 
-	public void dump() {
-		for (Milestone m : mstone)
-			m.dump();
-		for (TrattoStrada t : strade)
-			t.dump();
-	}
+//	public void dump() {
+//		for (Milestone m : mstone)
+//			m.dump();
+//		for (TrattoStrada t : strade)
+//			t.dump();
+//	}
 
 	private void setBestPath(List<Milestone> path, List<Milestone> bestPath) {
 		bestPath.clear();
@@ -85,9 +91,9 @@ public class CartinaStradale {
 
 	public Milestone findPath(Milestone a, Milestone b) {
 		System.out.println("PATH from:" + a.toString() + "TO " + b.toString());
-		dump();
+		// dump();
 		List<Milestone> path = new ArrayList<Milestone>();
-		// List<Milestone> bpath = new ArrayList<Milestone>();
+
 		Milestone m = calcPath(path, a, b, 1000000, 0);
 		if (bestPath.size() > 0) {
 			return bestPath.get(0);
@@ -100,14 +106,13 @@ public class CartinaStradale {
 		Milestone m;
 		if (tratto != null) {
 			m = tratto.getMilestoneEnd();
-		} else
-			{
-			 m = searchMilestone(x, y);
-				if (m == null) {
-					m = createMilestone(x, y, mainStage);
+		} else {
+			m = searchMilestone(x, y);
+			if (m == null) {
+				m = createMilestone(x, y, mainStage);
 
-				}
 			}
+		}
 
 		TrattoStrada t = new TrattoStrada(m, mainStage);
 		strade.add(t);
@@ -128,7 +133,8 @@ public class CartinaStradale {
 	}
 
 	public static void remove(TrattoStrada tratto) {
-		if(tratto==null)return;
+		if (tratto == null)
+			return;
 		strade.remove(tratto);
 		tratto.remove();
 	}
@@ -137,7 +143,7 @@ public class CartinaStradale {
 		Milestone m = new Milestone(x, y, mainStage);
 		mstone.add(m);
 
-		System.out.println("creato ms. size= " + mstone.size());
+		System.out.println("creato ms. " + m.getId() + " size= " + mstone.size());
 		return m;
 	}
 

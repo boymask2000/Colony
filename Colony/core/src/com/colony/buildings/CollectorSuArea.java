@@ -27,7 +27,7 @@ public class CollectorSuArea extends EdificioSuArea implements NotifyFromAgent {
 		missionComplete = true;
 		lastTimeWorked = (new Date()).getTime();
 		numArticoliProdotti++;
-		System.out.println(prodotto + " " + numArticoliProdotti);
+	//	System.out.println(prodotto + " " + numArticoliProdotti);
 		agent.remove();
 	}
 

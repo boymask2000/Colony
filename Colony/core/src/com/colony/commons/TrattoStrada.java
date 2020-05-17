@@ -116,7 +116,7 @@ public class TrattoStrada extends BaseActor{
 	}
 
 	public void dump() {
-		System.out.println(milestoneStart.toString() + " -> " + milestoneEnd.toString());
+	//	System.out.println(milestoneStart.toString() + " -> " + milestoneEnd.toString());
 
 	}
 

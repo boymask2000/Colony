@@ -15,7 +15,7 @@ public class Transporter extends BaseActor {
 	public static final int STATUS_DEPOSITO_TO_SOURCE = 1;
 	public static final int STATUS_SOURCE_TO_TARGET = 2;
 	public static final int STATUS_TARGET_TO_DEPOSITO = 3;
-	public static final int STATUS_TAPPA = 4;
+
 	public int currentStatus = IDLE;
 	public int nextStatus = IDLE;
 
@@ -27,63 +27,86 @@ public class Transporter extends BaseActor {
 	private Milestone currentTarget = null;
 	private Milestone current = null;
 
+	int prev = 0;
+
+	private Milestone source0;
+
+	private Milestone target0;
+
 	private void moving() {
 		boolean arrivato = false;
 		if (currentTarget == null)
 			return;
 
+		if (prev != currentStatus) {
+			System.out.println("Status = " + currentStatus);
+			System.out.println("NextStatus = " + nextStatus);
+			prev = currentStatus;
+		}
+
 		switch (currentStatus) {
 		case IDLE:
 			break;
 		case STATUS_DEPOSITO_TO_SOURCE:
-			nextStatus = STATUS_DEPOSITO_TO_SOURCE;
+
 			arrivato = execMove();
 			if (arrivato) {
-				if (currentTarget.getId() == source.getId()) {
+				
+				// current = currentTarget;
+				if (current.getId() == source0.getId()) {
+					System.out.println("Arrivato a source");
 					currentStatus = STATUS_SOURCE_TO_TARGET;
 
-					current = currentTarget;
+					// target=target0;
+					currentTarget = getNext(current, source0);
 				} else {
-
-					currentStatus = STATUS_TAPPA;
+					currentTarget = getNext(current, source0);
+//					nextStatus = STATUS_DEPOSITO_TO_SOURCE;
+//					currentStatus = STATUS_TAPPA;
 				}
 			}
 			break;
 		case STATUS_SOURCE_TO_TARGET:
-			nextStatus = STATUS_SOURCE_TO_TARGET;
+			if( target0.getId()==depositoHome.getId()) {
+				currentStatus = STATUS_TARGET_TO_DEPOSITO;return;
+			}
 			arrivato = execMove();
 			if (arrivato) {
-				if (currentTarget.getId() == target.getId()) {
+				if (current.getId() == target0.getId()) {
 					currentStatus = STATUS_TARGET_TO_DEPOSITO;
+//					target=depositoHome;
+//					current = currentTarget;
+					currentTarget = getNext(current, target0);
 
 				} else {
-					current = currentTarget;
-					currentStatus = STATUS_TAPPA;
+					currentTarget = getNext(current, target0);
+//					nextStatus = STATUS_SOURCE_TO_TARGET;
+//					currentStatus = STATUS_TAPPA;
 				}
 			}
 
 			break;
 		case STATUS_TARGET_TO_DEPOSITO:
-			nextStatus = STATUS_TARGET_TO_DEPOSITO;
+
 			arrivato = execMove();
 			if (arrivato) {
-				if (currentTarget.getId() == depositoHome.getId()) {
+				if (current.getId() == depositoHome.getId()) {
 					currentStatus = IDLE;
 				} else {
-					current = currentTarget;
-					currentStatus = STATUS_TAPPA;
+				
+					currentTarget = getNext(current, depositoHome);
 				}
 			}
 
 			break;
-		case STATUS_TAPPA:
-			CartinaStradale cartina = new CartinaStradale();
-			Milestone next = cartina.findPath(current, target);
-			currentStatus = nextStatus;
-			currentTarget = next;
-			break;
+
 		}
 
+	}
+
+	private Milestone getNext(Milestone from, Milestone to) {
+		CartinaStradale cartina = new CartinaStradale();
+		return cartina.findPath(from, to);
 	}
 
 	public boolean startMission(Edificio sourceEd, Edificio targetEd) {
@@ -96,33 +119,38 @@ public class Transporter extends BaseActor {
 			System.out.println("target non su strada");
 			return false;
 		}
-		this.source = sourceEd.getMilestone();
-		this.target = targetEd.getMilestone();
+		this.source0 = sourceEd.getMilestone();
+		this.target0 = targetEd.getMilestone();
 		currentStatus = STATUS_DEPOSITO_TO_SOURCE;
+		System.out.println("startMission " + sourceEd + " to " + targetEd);
 
+		this.source = depositoHome;
+		this.target = sourceEd.getMilestone();
 		CartinaStradale cartina = new CartinaStradale();
 		Milestone next = cartina.findPath(source, target);
 
-		current = sourceEd.getMilestone();
+		current = depositoHome;// sourceEd.getMilestone();
 		currentTarget = next;
+		// currentTarget.evidenzia();
 		System.out.println("startMission next: " + next.toString());
 		return true;
 	}
 
 	private boolean execMove() {
-//		float x1 = current.getX();
-//		float y1 = current.getY();
+
 		float x2 = currentTarget.getX();
 		float y2 = currentTarget.getY();
 
 		float nextX = 0;
 		float nextY = 0;
+		float xx = getX() + getWidth() / 2;
+		float yy = getY() + getHeight() / 2;
 
-		float d = Utils.calcDist(getX(), getY(), x2, y2);
-		float d1 = Utils.calcDist(getX() + DELTA, getY(), x2, y2);
-		float d2 = Utils.calcDist(getX(), getY() + DELTA, x2, y2);
-		float d3 = Utils.calcDist(getX() - DELTA, getY(), x2, y2);
-		float d4 = Utils.calcDist(getX(), getY() - DELTA, x2, y2);
+		float d = Utils.calcDist(xx, yy, x2, y2);
+		float d1 = Utils.calcDist(xx + DELTA, yy, x2, y2);
+		float d2 = Utils.calcDist(xx, yy + DELTA, x2, y2);
+		float d3 = Utils.calcDist(xx - DELTA, yy, x2, y2);
+		float d4 = Utils.calcDist(xx, yy - DELTA, x2, y2);
 		if (d1 < d) {
 			nextX = getX() + DELTA;
 			nextY = getY();
@@ -143,14 +171,18 @@ public class Transporter extends BaseActor {
 			nextY = getY() - DELTA;
 			d = d4;
 		}
-		setPosition(nextX, nextY);
-		if (d < 3 * DELTA)
+
+		if (d < 3 * DELTA) {
+			current = currentTarget;
 			return true;
+		}
+		setPosition(nextX, nextY);
 		return false;
 	}
 
 	public Transporter(Edificio depositoHome, Stage s, TipoElemento tipo) {
 		super(depositoHome.getX(), depositoHome.getY(), s, tipo);
+		this.depositoHome = depositoHome.getMilestone();
 		loadAnimWorking();
 	}
 
@@ -160,8 +192,8 @@ public class Transporter extends BaseActor {
 
 	@Override
 	public void act(float dt) {
-		if (currentStatus == IDLE)
-			return;
+//		if (currentStatus == IDLE)
+//			return;
 
 		super.act(dt);
 

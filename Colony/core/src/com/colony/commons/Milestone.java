@@ -2,34 +2,26 @@ package com.colony.commons;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.utils.Array;
 import com.colony.BaseActor;
+import com.colony.BaseGame;
 import com.colony.buildings.Pozzo;
 import com.colony.buildings.abst.ElementOnRoad;
 import com.colony.enums.TipoElemento;
 
 public class Milestone extends BaseActor {
-	private static int IDD = 0;
-	int index;
-	private Stage stage;
 
 	private ElementOnRoad adiacente = null;
 
-	private Array<TrattoStrada> stradeIN = new Array<>();
-	private Array<TrattoStrada> stradeOUT = new Array<>();
-
 	public Milestone(float x, float y, Stage s) {
 		super(x, y, s, TipoElemento.MILESTONE);
-	
+
 		edificio = new Pozzo(y, y, s, this);
-		this.stage = s;
-		index = IDD++;
+
 		initLabel();
 	}
 
@@ -37,40 +29,7 @@ public class Milestone extends BaseActor {
 		if (adiacente == null)
 			adiacente = ed;
 	}
-
-//	public Array<TrattoStrada> getStradeIN() {
-//		return stradeIN;
-//	}
-//
-//	public Array<TrattoStrada> getStradeOUT() {
-//		return stradeOUT;
-//	}
-
-
-
-	public boolean addTratto(TrattoStrada t) {
-		if (stradeIN.size + stradeOUT.size >= 4)
-			return false;
-		stradeIN.add(t);
-		stradeOUT.add(t);
-		t.setMilestoneEnd(this);
-
-		return true;
-	}
-
-//	public boolean addTrattoOUT(TrattoStrada t) {
-//		if (stradeIN.size + stradeOUT.size >= 4)
-//			return false;
-//		stradeOUT.add(t);
-//		t.setMilestoneStart(this);
-//
-//		return true;
-//	}
-
-	public Stage getStage() {
-		return stage;
-	}
-
+int raggio=10;
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
@@ -78,7 +37,7 @@ public class Milestone extends BaseActor {
 		ShapeRenderer shapeRenderer = new ShapeRenderer();
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		shapeRenderer.setColor(100, 255, 0, 1);
-		shapeRenderer.circle(getX(), getY(), 10);
+		shapeRenderer.circle(getX(), getY(), raggio);
 		shapeRenderer.end();
 
 	}
@@ -86,10 +45,10 @@ public class Milestone extends BaseActor {
 	Label l;
 
 	private void initLabel() {
-		BitmapFont font = Utils.getFont();
+
 		LabelStyle labelStyle = new LabelStyle();
-		labelStyle.font = font;
-		// labelStyle.font = new BitmapFont();
+		labelStyle.font = BaseGame.customFont;
+
 		l = new Label("Starfish v:", labelStyle);
 		l.setColor(Color.WHITE);
 		l.setPosition(getX() - 10, getY());
@@ -107,7 +66,7 @@ public class Milestone extends BaseActor {
 	@Override
 	public String toString() {
 
-		String s = "Milestone [index=" + getId() + "]";
+		String s = "Milestone [id=" + getId() + "]";
 		if (adiacente != null)
 			s += " " + adiacente;
 		return s;
@@ -125,13 +84,19 @@ public class Milestone extends BaseActor {
 
 	}
 
-	public void dump() {
-		System.out.println(toString());
-
-	}
+//	public void dump() {
+//		System.out.println(toString());
+//
+//	}
 
 	public Vector2 getPosition() {
 		return new Vector2(getX(), getY());
-	
+
+	}
+
+	public void evidenzia(boolean b) {
+		if(b)raggio=20;
+		else raggio=10;
+		
 	}
 }

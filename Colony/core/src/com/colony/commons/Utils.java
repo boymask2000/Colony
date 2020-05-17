@@ -1,12 +1,6 @@
 package com.colony.commons;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.math.Vector2;
 
 public class Utils {
 	private static BitmapFont customFont = null;
@@ -18,21 +12,6 @@ public class Utils {
 
 	}
 
-	public static BitmapFont getFont() {
-		if (customFont == null) {
-			FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
-			FreeTypeFontParameter fontParameters = new FreeTypeFontParameter();
-			fontParameters.size = 48;
-			fontParameters.color = Color.WHITE;
-			fontParameters.borderWidth = 2;
-			fontParameters.borderColor = Color.BLACK;
-			fontParameters.borderStraight = true;
-			fontParameters.minFilter = TextureFilter.Linear;
-			fontParameters.magFilter = TextureFilter.Linear;
-			customFont = fontGenerator.generateFont(fontParameters);
-		}
-		return customFont;
-
-	}
+	
 
 }
