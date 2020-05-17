@@ -12,38 +12,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 
-public class CartinaStradale implements IndexedGraph<Milestone> {
+public class CartinaStradale {
 	private static List<TrattoStrada> strade = new ArrayList<TrattoStrada>();
 	private static List<Milestone> mstone = new ArrayList<Milestone>();
-	private MilestoneHeuristic heuristic = new MilestoneHeuristic();
 
-//	public static void main(String s[]) {
-//		Stage stage = new Stage();
-//		Milestone m1 = new Milestone(10, 10, stage);
-//		Milestone m2 = new Milestone(11, 10, stage);
-//		Milestone m3 = new Milestone(12, 10, stage);
-//		Milestone m4 = new Milestone(13, 10, stage);
-//		Milestone m5 = new Milestone(14, 10, stage);
-//
-//		mstone.add(m1);
-//		mstone.add(m2);
-//		mstone.add(m3);
-//		mstone.add(m4);
-//		mstone.add(m5);
-//		TrattoStrada ta=new TrattoStrada(m1, m4, stage);
-//		TrattoStrada tb=new TrattoStrada(m1, m2, stage);
-//		TrattoStrada tc=new TrattoStrada(m2, m3, stage);
-//		TrattoStrada td=new TrattoStrada(m3, m5, stage);
-//		TrattoStrada te=new TrattoStrada(m4, m5, stage);
-//
-//		CartinaStradale c = new CartinaStradale();
-//		GraphPath<Milestone> gr = c.findPath(m1, m5);
-//		System.out.println();
-//	}
+	private List<Milestone> bestPath = new ArrayList<Milestone>();
 
 	public Milestone calcPath(//
 			List<Milestone> path, //
-			List<Milestone> bestPath, //
 			Milestone a, //
 			Milestone b, //
 			int bestCost, //
@@ -52,24 +28,23 @@ public class CartinaStradale implements IndexedGraph<Milestone> {
 		Milestone k = null;
 		if (a == null || b == null)
 			return null;
-		Array<TrattoStrada> strs = a.getStrade();
-		for (int i = 0; i < strs.size; i++) {
-			TrattoStrada t = strs.get(i);
+		List<Milestone> nears = getNears(a);
+		for (Milestone m : nears) {
 
 			if (currentCost + 1 >= bestCost)
 				continue;
 
-			if (path.contains(t.getToNode()))
+			if (path.contains(m))
 				continue;
 
-			path.add(t.getToNode());
+			path.add(m);
 
-			if (t.getToNode() == b) {
-				k = t.getToNode();
+			if (m == b) {
+				k = m;
 				bestCost = currentCost;
-				setBestPath(path,bestPath);
+				setBestPath(path, bestPath);
 			} else
-				calcPath(path, bestPath,t.getToNode(), b, bestCost, currentCost + 1);
+				k = calcPath(path, m, b, bestCost, currentCost + 1);
 
 			path.remove(path.size() - 1);
 
@@ -78,61 +53,92 @@ public class CartinaStradale implements IndexedGraph<Milestone> {
 
 	}
 
+	private List<Milestone> getNears(Milestone m) {
+		List<Milestone> out = new ArrayList<Milestone>();
+		for (TrattoStrada t : strade) {
+			if (t.getMilestoneEnd() == m)
+				out.add(t.getMilestoneStart());
+			if (t.getMilestoneStart() == m)
+				out.add(t.getMilestoneEnd());
+		}
+		return out;
+	}
+
+	public static void removeMilestone(Milestone m) {
+		mstone.remove(m);
+		m.remove();
+	}
+
+	public void dump() {
+		for (Milestone m : mstone)
+			m.dump();
+		for (TrattoStrada t : strade)
+			t.dump();
+	}
+
 	private void setBestPath(List<Milestone> path, List<Milestone> bestPath) {
 		bestPath.clear();
-		for( Milestone m:path)bestPath.add(m);
-	
-}
+		for (Milestone m : path)
+			bestPath.add(m);
+
+	}
 
 	public Milestone findPath(Milestone a, Milestone b) {
+		System.out.println("PATH from:" + a.toString() + "TO " + b.toString());
+		dump();
 		List<Milestone> path = new ArrayList<Milestone>();
-		List<Milestone> bpath = new ArrayList<Milestone>();
-		Milestone m = calcPath(path, bpath,a, b, 1000000, 0);
-		if (bpath.size() > 0) {
-			return bpath.get(0);
+		// List<Milestone> bpath = new ArrayList<Milestone>();
+		Milestone m = calcPath(path, a, b, 1000000, 0);
+		if (bestPath.size() > 0) {
+			return bestPath.get(0);
 
 		}
 		return m;
 	}
 
-	public Milestone findPath2(Milestone startCity, Milestone goalCity) {
-		GraphPath<Milestone> cityPath = new DefaultGraphPath<Milestone>();
-		new IndexedAStarPathFinder<>(this).searchNodePath(startCity, goalCity, heuristic, cityPath);
-		return null;
-	}
+	public static TrattoStrada setStart(int x, int y, TrattoStrada tratto, Stage mainStage) {
+		Milestone m;
+		if (tratto != null) {
+			m = tratto.getMilestoneEnd();
+		} else
+			{
+			 m = searchMilestone(x, y);
+				if (m == null) {
+					m = createMilestone(x, y, mainStage);
 
-	public static TrattoStrada setStart(int x, int y, Stage mainStage) {
+				}
+			}
 
-		TrattoStrada t = new TrattoStrada(x, y, mainStage);
+		TrattoStrada t = new TrattoStrada(m, mainStage);
 		strade.add(t);
-
-		putStone(x, y, mainStage, t, true);
 
 		return t;
 	}
 
 	public static void setEnd(TrattoStrada tratto, int x, int y) {
-		// putStone(x, y, tratto.getStage(), tratto, false);
 
-		tratto.setEnd(x, y);
-		putStone(x, y, tratto.getStage(), tratto, false);
+		Milestone m = searchMilestone(x, y);
+		if (m == null) {
+			m = createMilestone(x, y, tratto.getStage());
+
+		}
+
+		tratto.setMilestoneEnd(m);
 
 	}
 
-	private static void putStone(int x, int y, Stage mainStage, TrattoStrada t, boolean start) {
-		Milestone m = searchMilestone(x, y);
-		if (m == null) {
-			m = new Milestone(x, y, mainStage);
-			mstone.add(m);
-		}
-		if (m.addTratto(t))
-			if (start) {
-				t.setMilestoneStart(m);
-				t.setStart(new Vector2(m.getPosition().x, m.getPosition().y));
-			} else {
-				t.setMilestoneEnd(m);
-				t.setEnd(new Vector2(m.getPosition().x, m.getPosition().y));
-			}
+	public static void remove(TrattoStrada tratto) {
+		if(tratto==null)return;
+		strade.remove(tratto);
+		tratto.remove();
+	}
+
+	public static Milestone createMilestone(int x, int y, Stage mainStage) {
+		Milestone m = new Milestone(x, y, mainStage);
+		mstone.add(m);
+
+		System.out.println("creato ms. size= " + mstone.size());
+		return m;
 	}
 
 	public static Milestone searchNearestMilestone(int x, int y, float maxDist) {
@@ -194,22 +200,4 @@ public class CartinaStradale implements IndexedGraph<Milestone> {
 
 		return d2;
 	}
-
-	@Override
-	public Array<Connection<Milestone>> getConnections(Milestone fromNode) {
-		Array<Connection<Milestone>> r = new Array<Connection<Milestone>>(fromNode.getStrade());
-		return r;
-
-	}
-
-	@Override
-	public int getIndex(Milestone node) {
-		return node.getIndex();
-	}
-
-	@Override
-	public int getNodeCount() {
-		return mstone.size();
-	}
-
 }

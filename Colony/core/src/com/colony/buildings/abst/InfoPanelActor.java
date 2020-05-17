@@ -25,7 +25,7 @@ public  abstract class InfoPanelActor extends BaseActor implements InputProcesso
 		addListener( new ClickListener() {
 		    @Override
 		    public void clicked(InputEvent event, float x, float y) {
-		    	System.out.println("IN");
+		    	
 		    	showInfoPanel();
 		    }
 		} );

@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.colony.buildings.InfoPanelActor"/>
-    <fullyQualifiedTypeName name="com.colony.buildings.actors.infopanels.InfoPanelCastello"/>
-    <fullyQualifiedTypeName name="com.colony.commons.Ordine"/>
-    <fullyQualifiedTypeName name="com.colony.commons.Terreno"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
-    <fullyQualifiedTypeName name="com.badlogic.gdx.maps.Map"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="com.colony.buildings.Coltivatore"/>
     <fullyQualifiedTypeName name="com.colony.buildings.actors.CampoGranoActor"/>
     <fullyQualifiedTypeName name="com.colony.buildings.drag.CampoGranoDrag"/>
@@ -39,9 +32,7 @@
     <fullyQualifiedTypeName name="com.colony.buildings.Pozzo"/>
     <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.glutils.ShapeRenderer"/>
     <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.Batch"/>
-    <fullyQualifiedTypeName name="com.colony.buildings.abst.ElementOnRoad"/>
     <fullyQualifiedTypeName name="com.colony.BaseActor"/>
-    <fullyQualifiedTypeName name="com.colony.buildings.abst.Edificio"/>
     <fullyQualifiedTypeName name="com.colony.commons.Utils"/>
     <fullyQualifiedTypeName name="com.badlogic.gdx.ai.pfa.indexed.IndexedGraph"/>
     <fullyQualifiedTypeName name="com.badlogic.gdx.ai.pfa.Connection"/>
@@ -49,7 +40,6 @@
     <fullyQualifiedTypeName name="com.badlogic.gdx.ai.pfa.DefaultGraphPath"/>
     <fullyQualifiedTypeName name="com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder"/>
     <fullyQualifiedTypeName name="com.badlogic.gdx.ai.pfa.Heuristic"/>
-    <fullyQualifiedTypeName name="com.badlogic.gdx.math.Vector2"/>
     <fullyQualifiedTypeName name="com.colony.commons.TrattoStrada"/>
     <fullyQualifiedTypeName name="com.colony.commons.CartinaStradale"/>
     <fullyQualifiedTypeName name="com.colony.commons.Milestone"/>
@@ -57,7 +47,17 @@
     <fullyQualifiedTypeName name="com.colony.commons.Pacco"/>
     <fullyQualifiedTypeName name="com.colony.buildings.actors.Transporter"/>
     <fullyQualifiedTypeName name="com.colony.enums.TipoElemento"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.badlogic.gdx.utils.Array"/>
+    <fullyQualifiedTypeName name="com.badlogic.gdx.scenes.scene2d.ui.Label"/>
+    <fullyQualifiedTypeName name="com.badlogic.gdx.Gdx"/>
+    <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator"/>
+    <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter"/>
+    <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.Color"/>
+    <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.Texture.TextureFilter"/>
+    <fullyQualifiedTypeName name="com.badlogic.gdx.graphics.g2d.BitmapFont"/>
+    <fullyQualifiedTypeName name="com.badlogic.gdx.math.Vector2"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.colony.buildings.abst.Edificio"/>
+    <fullyQualifiedTypeName name="com.colony.buildings.abst.ElementOnRoad"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

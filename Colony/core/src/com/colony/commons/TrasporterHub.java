@@ -11,9 +11,9 @@ public class TrasporterHub {
 
 	public static void createTrasport(Edificio partenza, Edificio destinazione, Ordine o) {
 
-		System.out.println("Richiesta trasporto " + o.getMateriale() + " da " + partenza.getName() + " a "
-				+ destinazione.getName());
-		
+//		System.out.println("Richiesta trasporto " + o.getMateriale() + " da " + partenza.getName() + " a "
+//				+ destinazione.getName());
+//		
 		Pacco p = new Pacco( partenza,  destinazione,  o);
 		pacchi.add(p);
 	}

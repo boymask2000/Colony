@@ -381,7 +381,7 @@ public abstract class BaseActor extends Actor {
 		return getList(stage).size();
 	}
 
-	public int getId() {
+	public final int getId() {
 		return id;
 	}
 }

@@ -8,37 +8,50 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.colony.BaseActor;
 import com.colony.enums.TipoElemento;
 
-public class TrattoStrada extends BaseActor implements Connection<Milestone> {
+public class TrattoStrada extends BaseActor{
 
-	private Vector2 start = new Vector2();
-	private Vector2 end = new Vector2();
 	private Stage stage;
 	private Milestone milestoneStart;
 	private Milestone milestoneEnd;
 
-	public TrattoStrada(float x, float y, Stage s) {
-		super(x, y, s, TipoElemento.ROAD);
-		start.x = x;
-		start.y = y;
-		this.stage = s;
-	}
+//	public TrattoStrada(Milestone mx, Milestone my, Stage s) {
+//		super(mx.getX(), mx.getY(), s, TipoElemento.ROAD);
+//		this.stage = s;
+//		milestoneStart = mx;
+//		milestoneEnd = my;
+//
+//		milestoneStart.addTrattoOUT(this);
+//		milestoneEnd.addTrattoIN(this);
+//
+//	}
 
-	public TrattoStrada(Milestone mx, Milestone my, Stage s) {
+	public TrattoStrada(Milestone mx, Stage s) {
 		super(mx.getX(), mx.getY(), s, TipoElemento.ROAD);
 		this.stage = s;
 		milestoneStart = mx;
-		milestoneEnd = my;
-		start.x = mx.getX();
-		start.y = mx.getY();
-		end.x = my.getX();
-		end.y = my.getY();
+
+	//	milestoneStart.addTratto(this);
+		
 
 	}
 
+	
+
 	// ***********************************************************************************
+	public float getCost() {
+		float x1 = milestoneStart.getX();
+		float y1 = milestoneStart.getY();
+		float x2 = milestoneEnd.getX();
+		float y2 = milestoneEnd.getY();
+		return Vector2.dst(x1, y1, x2, y2);
+	}
 
 	public int getLength() {
-		return (int) Utils.calcDist(start.x, start.y, end.x, end.y);
+		float x1 = milestoneStart.getX();
+		float y1 = milestoneStart.getY();
+		float x2 = milestoneEnd.getX();
+		float y2 = milestoneEnd.getY();
+		return (int) Utils.calcDist(x1, y1, x2, y2);
 	}
 
 	public Stage getStage() {
@@ -50,34 +63,28 @@ public class TrattoStrada extends BaseActor implements Connection<Milestone> {
 	}
 
 	public Vector2 getStart() {
-		return start;
-	}
-
-	public void setStart(Vector2 start) {
-		this.start = start;
-	}
-
-	public void setEnd(Vector2 end) {
-		this.end = end;
+		return milestoneStart.getPosition();
 	}
 
 	public Vector2 getEnd() {
-		return end;
-	}
-
-	public void setEnd(float x, float y) {
-		end.x = x;
-		end.y = y;
+		return milestoneEnd.getPosition();
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
+		if (milestoneStart == null || milestoneEnd == null)
+			return;
+
+		float x1 = milestoneStart.getX();
+		float y1 = milestoneStart.getY();
+		float x2 = milestoneEnd.getX();
+		float y2 = milestoneEnd.getY();
 
 		ShapeRenderer shapeRenderer = new ShapeRenderer();
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		shapeRenderer.setColor(100, 255, 0, 1);
-		shapeRenderer.rectLine(start.x, start.y, end.x, end.y, 4);
+		shapeRenderer.rectLine(x1, y1, x2, y2, 4);
 		shapeRenderer.end();
 
 		// System.out.println(start.x + " " + start.y + " " + end.x + " " + end.y);
@@ -99,18 +106,18 @@ public class TrattoStrada extends BaseActor implements Connection<Milestone> {
 
 	}
 
-	@Override
-	public float getCost() {
-		return Vector2.dst(start.x, start.y, end.x, end.y);
-	}
 
-	@Override
-	public Milestone getFromNode() {
+	public Milestone getMilestoneStart() {
 		return milestoneStart;
 	}
 
-	@Override
-	public Milestone getToNode() {
+	public Milestone getMilestoneEnd() {
 		return milestoneEnd;
 	}
+
+	public void dump() {
+		System.out.println(milestoneStart.toString() + " -> " + milestoneEnd.toString());
+
+	}
+
 }

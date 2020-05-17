@@ -1,20 +1,23 @@
 package com.colony.buildings.actors;
 
-import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.colony.BaseActor;
 import com.colony.buildings.abst.Edificio;
 import com.colony.commons.CartinaStradale;
 import com.colony.commons.Milestone;
+import com.colony.commons.Utils;
 import com.colony.enums.TipoElemento;
 
 public class Transporter extends BaseActor {
+	private static final int DELTA = 1;
+
 	public static final int IDLE = 0;
 	public static final int STATUS_DEPOSITO_TO_SOURCE = 1;
 	public static final int STATUS_SOURCE_TO_TARGET = 2;
-	public static final  int STATUS_TARGET_TO_DEPOSITO = 3;
-	public static final  int STATUS_TAPPA = 4;
+	public static final int STATUS_TARGET_TO_DEPOSITO = 3;
+	public static final int STATUS_TAPPA = 4;
 	public int currentStatus = IDLE;
+	public int nextStatus = IDLE;
 
 	private Milestone source;
 	private Milestone target;
@@ -22,21 +25,62 @@ public class Transporter extends BaseActor {
 	private Milestone depositoHome;
 
 	private Milestone currentTarget = null;
+	private Milestone current = null;
 
 	private void moving() {
+		boolean arrivato = false;
 		if (currentTarget == null)
 			return;
-		
-		switch( currentStatus) {
-		case IDLE:break;
+
+		switch (currentStatus) {
+		case IDLE:
+			break;
 		case STATUS_DEPOSITO_TO_SOURCE:
-			execMove();
+			nextStatus = STATUS_DEPOSITO_TO_SOURCE;
+			arrivato = execMove();
+			if (arrivato) {
+				if (currentTarget.getId() == source.getId()) {
+					currentStatus = STATUS_SOURCE_TO_TARGET;
+
+					current = currentTarget;
+				} else {
+
+					currentStatus = STATUS_TAPPA;
+				}
+			}
 			break;
 		case STATUS_SOURCE_TO_TARGET:
+			nextStatus = STATUS_SOURCE_TO_TARGET;
+			arrivato = execMove();
+			if (arrivato) {
+				if (currentTarget.getId() == target.getId()) {
+					currentStatus = STATUS_TARGET_TO_DEPOSITO;
+
+				} else {
+					current = currentTarget;
+					currentStatus = STATUS_TAPPA;
+				}
+			}
+
 			break;
 		case STATUS_TARGET_TO_DEPOSITO:
+			nextStatus = STATUS_TARGET_TO_DEPOSITO;
+			arrivato = execMove();
+			if (arrivato) {
+				if (currentTarget.getId() == depositoHome.getId()) {
+					currentStatus = IDLE;
+				} else {
+					current = currentTarget;
+					currentStatus = STATUS_TAPPA;
+				}
+			}
+
 			break;
 		case STATUS_TAPPA:
+			CartinaStradale cartina = new CartinaStradale();
+			Milestone next = cartina.findPath(current, target);
+			currentStatus = nextStatus;
+			currentTarget = next;
 			break;
 		}
 
@@ -58,9 +102,51 @@ public class Transporter extends BaseActor {
 
 		CartinaStradale cartina = new CartinaStradale();
 		Milestone next = cartina.findPath(source, target);
-		System.out.println("next = " + next);
+
+		current = sourceEd.getMilestone();
 		currentTarget = next;
+		System.out.println("startMission next: " + next.toString());
 		return true;
+	}
+
+	private boolean execMove() {
+//		float x1 = current.getX();
+//		float y1 = current.getY();
+		float x2 = currentTarget.getX();
+		float y2 = currentTarget.getY();
+
+		float nextX = 0;
+		float nextY = 0;
+
+		float d = Utils.calcDist(getX(), getY(), x2, y2);
+		float d1 = Utils.calcDist(getX() + DELTA, getY(), x2, y2);
+		float d2 = Utils.calcDist(getX(), getY() + DELTA, x2, y2);
+		float d3 = Utils.calcDist(getX() - DELTA, getY(), x2, y2);
+		float d4 = Utils.calcDist(getX(), getY() - DELTA, x2, y2);
+		if (d1 < d) {
+			nextX = getX() + DELTA;
+			nextY = getY();
+			d = d1;
+		}
+		if (d2 < d) {
+			nextX = getX();
+			nextY = getY() + DELTA;
+			d = d2;
+		}
+		if (d3 < d) {
+			nextX = getX() - DELTA;
+			nextY = getY();
+			d = d3;
+		}
+		if (d4 < d) {
+			nextX = getX();
+			nextY = getY() - DELTA;
+			d = d4;
+		}
+		setPosition(nextX, nextY);
+		if (d < 3 * DELTA)
+			return true;
+		return false;
 	}
 
 	public Transporter(Edificio depositoHome, Stage s, TipoElemento tipo) {
@@ -89,6 +175,12 @@ public class Transporter extends BaseActor {
 
 	@Override
 	public void loadAnimWorking() {
-
+		String animations[] = { "pozzo/working/frame_00_delay-0.1s.gif", "pozzo/working/frame_01_delay-0.1s.gif",
+				"pozzo/working/frame_02_delay-0.1s.gif", "pozzo/working/frame_03_delay-0.1s.gif",
+				"pozzo/working/frame_04_delay-0.1s.gif", "pozzo/working/frame_05_delay-0.1s.gif",
+				"pozzo/working/frame_06_delay-0.1s.gif", "pozzo/working/frame_07_delay-0.1s.gif",
+				"pozzo/working/frame_08_delay-0.1s.gif", "pozzo/working/frame_09_delay-0.1s.gif",
+				"pozzo/working/frame_10_delay-0.1s.gif" };
+		loadAnimationFromFiles(animations, 0.1f, true);
 	}
 }

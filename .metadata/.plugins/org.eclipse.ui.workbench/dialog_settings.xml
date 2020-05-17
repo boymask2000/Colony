@@ -29,4 +29,18 @@
 			<item value="/home/giovanni/Desktop"/>
 		</list>
 	</section>
+	<section name="org.eclipse.ui.internal.dialogs.WorkbenchEditorsDialog">
+		<item key="allPersp" value="false"/>
+		<item key="sort" value="0"/>
+		<list key="bounds">
+			<item value="877"/>
+			<item value="341"/>
+			<item value="782"/>
+			<item value="541"/>
+		</list>
+		<list key="columns">
+			<item value="252"/>
+			<item value="506"/>
+		</list>
+	</section>
 </section>

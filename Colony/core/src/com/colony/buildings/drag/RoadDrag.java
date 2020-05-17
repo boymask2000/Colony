@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.colony.BaseActor;
 import com.colony.commons.CartinaStradale;
+import com.colony.commons.Milestone;
 import com.colony.commons.TrattoStrada;
 import com.colony.enums.TipoElemento;
 
@@ -26,7 +27,7 @@ public class RoadDrag extends Draggable {
 		if (button == Input.Buttons.LEFT) {
 
 			if (first) {
-				tratto = CartinaStradale.setStart(x, y, mainStage);
+				tratto = CartinaStradale.setStart(x, y, null,mainStage);
 
 				first = false;
 			} else {
@@ -34,18 +35,21 @@ public class RoadDrag extends Draggable {
 				// first = true;
 				CartinaStradale.setEnd(tratto, x, y);
 
-				tratto = CartinaStradale.setStart(x, y, mainStage);
+				tratto = CartinaStradale.setStart(x, y, tratto, mainStage);
 				// remove();
 			}
 			return true;
 		}
 		if (button == Input.Buttons.RIGHT) {
+	//		CartinaStradale.removeMilestone(tratto.getMilestoneStart());
 
+			
 			InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
-
+			CartinaStradale.remove(tratto);
 			im.removeProcessor(this);
-			tratto.remove();
+		
 			remove();
+			
 
 			return true;
 		}
@@ -54,9 +58,9 @@ public class RoadDrag extends Draggable {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		System.out.println("m1");
+	
 		if (!first) {
-			System.out.println("M2");
+		
 			ShapeRenderer shapeRenderer = new ShapeRenderer();
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(100, 255, 0, 1);

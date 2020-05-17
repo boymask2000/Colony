@@ -32,7 +32,7 @@ public class Carrier extends BaseActor {
 			setRotation(getMotionAngle());
 
 		if (overlaps(target)) {
-			System.out.println("arrivo a "+target);
+	//		System.out.println("arrivo a "+target);
 			edificioTarget.handleDelivery(ordine);
 			remove();
 		}

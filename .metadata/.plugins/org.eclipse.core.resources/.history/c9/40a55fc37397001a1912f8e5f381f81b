@@ -1,0 +1,33 @@
+package com.colony.commons;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+
+public class Utils {
+	private static FreeTypeFontGenerator fontGenerator =null;
+	public static float calcDist(float x, float y, float x2, float y2) {
+		return (x - x2) * (x - x2) + (y - y2) * (y - y2);
+
+	}
+
+	public static BitmapFont setFonts() {
+		if( fontGenerator==null)
+		 fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
+		FreeTypeFontParameter fontParameters = new FreeTypeFontParameter();
+		fontParameters.size = 48;
+		fontParameters.color = Color.WHITE;
+		fontParameters.borderWidth = 2;
+		fontParameters.borderColor = Color.BLACK;
+		fontParameters.borderStraight = true;
+		fontParameters.minFilter = TextureFilter.Linear;
+		fontParameters.magFilter = TextureFilter.Linear;
+		BitmapFont customFont = fontGenerator.generateFont(fontParameters);
+		return customFont;
+		
+	}
+
+}

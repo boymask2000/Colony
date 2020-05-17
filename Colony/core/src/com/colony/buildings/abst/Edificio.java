@@ -7,7 +7,6 @@ import com.colony.enums.TipoElemento;
 
 public abstract class Edificio extends ElementOnRoad{
 
-	protected int id;
 
 	protected Stage mainStage;
 	protected BaseActor actor;
@@ -32,11 +31,6 @@ public abstract class Edificio extends ElementOnRoad{
 	public abstract void work();
 
 	
-
-	public int getId() {
-		return id;
-	}
-
 	public BaseActor getActor() {
 		return actor;
 	}

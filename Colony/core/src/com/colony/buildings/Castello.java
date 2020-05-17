@@ -17,7 +17,7 @@ import com.colony.enums.TipoElemento;
 
 public class Castello extends EdificioFabbrica implements NotifyFromAgent {
 
-	private int numTrasporters = 10;
+	private int numTrasporters = 1;
 
 	public Castello(float x, float y, Stage s, BaseActor act) {
 		super(x, y, s, act, "Castello");
